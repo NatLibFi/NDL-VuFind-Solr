@@ -4,7 +4,7 @@ set -e
 set -x
 
 cd "`dirname $0`"
-CLASSPATH="browse-indexing.jar:../solr-webapp/webapp/WEB-INF/lib/*"
+CLASSPATH="browse-indexing.jar:../solr-webapp/webapp/WEB-INF/lib/*:../lib/*"
 
 bib_index="../vufind/biblio/index"
 auth_index="../vufind/authority/index"
@@ -21,9 +21,9 @@ function build_browse
     extra_jvm_opts=$4
 
     if [ "$skip_authority" = "1" ]; then
-        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "${browse}_browse.db"
+        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "${browse}_browse.db"
     else
-        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "$auth_index" "${browse}_browse.db"
+        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "$auth_index" "${browse}_browse.db"
     fi
 
     mv "${browse}_browse.db" "$index_dir/${browse}_browse.db-updated"
