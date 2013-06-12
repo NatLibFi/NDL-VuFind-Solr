@@ -20,6 +20,10 @@ function build_browse
 
     extra_jvm_opts=$4
 
+    if [ -e "${browse}_browse.db" ]; then
+        rm "${browse}_browse.db"
+    fi
+
     if [ "$skip_authority" = "1" ]; then
         java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "${browse}_browse.db"
     else
