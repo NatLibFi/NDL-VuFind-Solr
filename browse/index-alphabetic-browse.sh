@@ -25,9 +25,9 @@ function build_browse
     fi
 
     if [ "$skip_authority" = "1" ]; then
-        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "${browse}_browse.db"
+        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx8G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "${browse}_browse.db"
     else
-        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx2G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "$auth_index" "${browse}_browse.db"
+        java ${extra_jvm_opts} -Dfile.encoding="UTF-8" -Xmx8G -XX:+UseParallelGC -Dfield.preferred=heading -Dfield.insteadof=use_for -cp $CLASSPATH CreateBrowseSQLite "$bib_index" "$field" "$auth_index" "${browse}_browse.db"
     fi
 
     mv "${browse}_browse.db" "$index_dir/${browse}_browse.db-updated"
