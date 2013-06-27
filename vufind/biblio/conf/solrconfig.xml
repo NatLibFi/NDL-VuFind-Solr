@@ -17,8 +17,8 @@
 -->
 
 <config>
-  <!-- Set this to 'false' if you want solr to continue working after it has 
-       encountered an severe configuration error.  In a production environment, 
+  <!-- Set this to 'false' if you want solr to continue working after it has
+       encountered an severe configuration error.  In a production environment,
        you may want solr to keep working even if one handler is mis-configured.
 
        You may also set this to false using by setting the system property:
@@ -40,15 +40,15 @@
   <dataDir>${solr.solr.home:./solr}/biblio</dataDir>
 
   <indexConfig>
-    <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a 
-         LimitTokenCountFilterFactory in your fieldType definition. E.g. 
+    <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a
+         LimitTokenCountFilterFactory in your fieldType definition. E.g.
      <filter class="solr.LimitTokenCountFilterFactory" maxTokenCount="10000"/>
     -->
     <!-- Maximum time to wait for a write lock (ms) for an IndexWriter. Default: 1000 -->
     <!-- <writeLockTimeout>1000</writeLockTimeout>  -->
 
-    <!-- Expert: Enabling compound file will use less files for the index, 
-         using fewer file descriptors on the expense of performance decrease. 
+    <!-- Expert: Enabling compound file will use less files for the index,
+         using fewer file descriptors on the expense of performance decrease.
          Default in Lucene is "true". Default in Solr is "false" (since 3.6) -->
     <!-- <useCompoundFile>false</useCompoundFile> -->
 
@@ -62,7 +62,7 @@
     <ramBufferSizeMB>256</ramBufferSizeMB>
     <!-- <maxBufferedDocs>1000</maxBufferedDocs> -->
 
-    <!-- Expert: Merge Policy 
+    <!-- Expert: Merge Policy
          The Merge Policy in Lucene controls how merging of segments is done.
          The default since Solr/Lucene 3.3 is TieredMergePolicy.
          The default since Lucene 2.3 was the LogByteSizeMergePolicy,
@@ -74,7 +74,7 @@
           <int name="segmentsPerTier">10</int>
         </mergePolicy>
       -->
-       
+
     <!-- Merge Factor
          The merge factor controls how many segments will get merged at a time.
          For TieredMergePolicy, mergeFactor is a convenience parameter which
@@ -83,7 +83,7 @@
          will be allowed before they are merged into one.
          Default is 10 for both merge policies.
       -->
-    <!-- 
+    <!--
     <mergeFactor>10</mergeFactor>
       -->
 
@@ -93,15 +93,15 @@
          can perform merges in the background using separate threads.
          The SerialMergeScheduler (Lucene 2.2 default) does not.
      -->
-    <!-- 
+    <!--
        <mergeScheduler class="org.apache.lucene.index.ConcurrentMergeScheduler"/>
        -->
 
-    <!-- LockFactory 
+    <!-- LockFactory
 
          This option specifies which Lucene LockFactory implementation
          to use.
-      
+
          single = SingleInstanceLockFactory - suggested for a
                   read-only index or when there is no possibility of
                   another process trying to modify the index.
@@ -130,7 +130,7 @@
     <!--
     <unlockOnStartup>false</unlockOnStartup>
       -->
-    
+
     <!-- Expert: Controls how often Lucene loads terms into memory
          Default is 128 and is likely good for most everyone.
       -->
@@ -139,7 +139,7 @@
     <!-- If true, IndexReaders will be reopened (often more efficient)
          instead of closed and then opened. Default: true
       -->
-    <!-- 
+    <!--
     <reopenReaders>true</reopenReaders>
       -->
 
@@ -153,11 +153,11 @@
          The default Solr IndexDeletionPolicy implementation supports
          deleting index commit points on number of commits, age of
          commit point and optimized status.
-         
+
          The latest commit point should always be preserved regardless
          of the criteria.
     -->
-    <!-- 
+    <!--
     <deletionPolicy class="solr.SolrDeletionPolicy">
     -->
       <!-- The number of commit points to be kept -->
@@ -172,31 +172,31 @@
          <str name="maxCommitAge">30MINUTES</str>
          <str name="maxCommitAge">1DAY</str>
       -->
-    <!-- 
+    <!--
     </deletionPolicy>
     -->
 
     <!-- Lucene Infostream
-       
+
          To aid in advanced debugging, Lucene provides an "InfoStream"
          of detailed information when indexing.
 
          Setting The value to true will instruct the underlying Lucene
          IndexWriter to write its debugging info the specified file
       -->
-     <!-- <infoStream file="INFOSTREAM.txt">false</infoStream> --> 
+     <!-- <infoStream file="INFOSTREAM.txt">false</infoStream> -->
   </indexConfig>
-  
-  <!--	Enables JMX if and only if an existing MBeanServer is found, use 
+
+  <!--	Enables JMX if and only if an existing MBeanServer is found, use
   		this if you want to configure JMX through JVM parameters. Remove
   		this to disable exposing Solr configuration and statistics to JMX.
-  		
+
 		If you want to connect to a particular server, specify the agentId
 		e.g. <jmx agentId="myAgent" />
-		
+
 		If you want to start a new MBeanServer, specify the serviceUrl
 		e.g <jmx serviceurl="service:jmx:rmi:///jndi/rmi://localhost:9999/solr" />
-		
+
 		For more details see http://wiki.apache.org/solr/SolrJmx
   -->
   <jmx />
@@ -213,7 +213,7 @@
          maxDocs - number of updates since last commit is greater than this
          maxTime - oldest uncommited update (in ms) is this long ago
     -->
-    <autoCommit> 
+    <autoCommit>
       <maxDocs>200000</maxDocs>
       <maxTime>1200000</maxTime>
     </autoCommit>
@@ -235,7 +235,7 @@
     </listener>
     -->
     <!-- A postOptimize event is fired only after every optimize command, useful
-         in conjunction with index distribution to only distribute optimized indicies 
+         in conjunction with index distribution to only distribute optimized indicies
     <listener event="postOptimize" class="solr.RunExecutableListener">
       <str name="exe">snapshooter</str>
       <str name="dir">solr/bin</str>
@@ -252,7 +252,7 @@
         queries.  An exception is thrown if exceeded.  -->
     <maxBooleanClauses>1024</maxBooleanClauses>
 
-    
+
     <!-- Cache used by SolrIndexSearcher for filters (DocSets),
          unordered sets of *all* documents that match a query.
          When a new searcher is opened, its caches may be prepopulated
@@ -287,7 +287,7 @@
       size="100000"
       initialSize="4096"
       autowarmCount="4096"/>
-      
+
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
     <documentCache
@@ -334,7 +334,7 @@
          then documents 0 through 49 will be collected and cached.  Any further
          requests in that range can be satisfied via the cache.  -->
     <queryResultWindowSize>50</queryResultWindowSize>
-    
+
     <!-- Maximum number of documents to cache for any entry in the
          queryResultCache. -->
     <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
@@ -399,7 +399,7 @@
         </lst>
       </arr>
     </listener>
-    
+
     <!-- If a search request comes in and there is no current registered searcher,
          then immediately register the still warming searcher and use it.  If
          "false" then all requests will block until the first searcher is done
@@ -413,7 +413,7 @@
 
   </query>
 
-  <!-- 
+  <!--
     Let the dispatch filter handler /select?qt=XXX
     handleSelect=true will use consistent error handling for /select and /update
     handleSelect=false will use solr1.1 style error formatting
@@ -421,9 +421,9 @@
   <requestDispatcher handleSelect="true" >
     <!--Make sure your system has some authentication before enabling remote streaming!  -->
     <requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" />
-        
+
     <!-- Set HTTP caching related parameters (for proxy caches and clients).
-          
+
          To get the behaviour of Solr 1.2 (ie: no caching related headers)
          use the never304="true" option and do not specify a value for
          <cacheControl>
@@ -437,7 +437,7 @@
             You can change it to lastModFrom="dirLastMod" if you want the
             value to exactly corrispond to when the physical index was last
             modified.
-               
+
             etagSeed="..." is an option you can change to force the ETag
             header (and validation against If-None-Match requests) to be
             differnet even if the index has not changed (ie: when making
@@ -449,7 +449,7 @@
        <!-- If you include a <cacheControl> directive, it will be used to
             generate a Cache-Control header, as well as an Expires header
             if the value contains "max-age="
-               
+
             By default, no Cache-Control header is generated.
 
             You can use the <cacheControl> option even if you have set
@@ -458,11 +458,11 @@
        <!-- <cacheControl>max-age=30, public</cacheControl> -->
     </httpCaching>
   </requestDispatcher>
-  
-      
+
+
   <!-- requestHandler plugins... incoming queries will be dispatched to the
      correct handler based on the path or the qt (query type) param.
-     Names starting with a '/' are accessed with the a path equal to the 
+     Names starting with a '/' are accessed with the a path equal to the
      registered name.  Names without a leading '/' are accessed with:
       http://host/app/select?qt=name
      If no qt is defined, the requestHandler that declares default="true"
@@ -472,7 +472,7 @@
     <!-- default values for query parameters -->
     <lst name="defaults">
        <str name="echoParams">explicit</str>
-       <!-- 
+       <!--
        <int name="rows">10</int>
        <str name="fl">*</str>
        <str name="version">2.1</str>
@@ -484,13 +484,13 @@
       <str name="spellcheck.maxCollations">10</str>
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
-      <str name="spellcheck.collateExtendedResults">false</str>  
+      <str name="spellcheck.collateExtendedResults">false</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
-    </arr>     
+    </arr>
   </requestHandler>
-  
+
   <!-- the following handler will be used for eligible dismax searches defined
      in web/conf/searchspecs.yaml.  Searches relying on advanced features
      incompatible with dismax will be sent to the standard handler instead.
@@ -510,13 +510,13 @@
       <str name="spellcheck.maxCollations">10</str>
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
-      <str name="spellcheck.collateExtendedResults">false</str>  
+      <str name="spellcheck.collateExtendedResults">false</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
-    </arr>     
+    </arr>
   </requestHandler>
-  
+
   <requestHandler name="morelikethis" class="solr.MoreLikeThisHandler">
     <lst name="defaults">
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
@@ -580,7 +580,7 @@
       <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/hierarchy_browse.db</str>
       <str name="field">hierarchy_browse</str>
     </lst>
-    
+
   </requestHandler>
 
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
@@ -615,29 +615,29 @@
   </searchComponent>
 
   <!--
-   
+
    Search components are registered to SolrCore and used by Search Handlers
-   
+
    By default, the following components are avaliable:
-    
+
    <searchComponent name="query"     class="org.apache.solr.handler.component.QueryComponent" />
    <searchComponent name="facet"     class="org.apache.solr.handler.component.FacetComponent" />
    <searchComponent name="mlt"       class="org.apache.solr.handler.component.MoreLikeThisComponent" />
    <searchComponent name="highlight" class="org.apache.solr.handler.component.HighlightComponent" />
    <searchComponent name="stats"     class="org.apache.solr.handler.component.StatsComponent" />
    <searchComponent name="debug"     class="org.apache.solr.handler.component.DebugComponent" />
-  
+
    If you register a searchComponent to one of the standard names, that will be used instead.
-  
+
    -->
- 
+
   <requestHandler name="/search" class="org.apache.solr.handler.component.SearchHandler">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
     </lst>
     <!--
     By default, this will register the following components:
-    
+
     <arr name="components">
       <str>query</str>
       <str>facet</str>
@@ -645,24 +645,24 @@
       <str>highlight</str>
       <str>debug</str>
     </arr>
-    
+
     To insert handlers before or after the 'standard' components, use:
-    
+
     <arr name="first-components">
       <str>first</str>
     </arr>
-    
+
     <arr name="last-components">
       <str>last</str>
     </arr>
-    
+
     -->
     <arr name="last-components">
       <str>spellcheck</str>
       <str>elevator</str>
     </arr>
   </requestHandler>
-  
+
   <!-- Request handler to extract terms (useful for sitemap generation) -->
   <requestHandler name="/term" class="org.apache.solr.handler.component.SearchHandler">
     <arr name="components">
@@ -675,7 +675,7 @@
     <str name="queryFieldType">string</str>
     <str name="config-file">elevate.xml</str>
   </searchComponent>
- 
+
   <requestHandler name="/elevate" class="org.apache.solr.handler.component.SearchHandler" startup="lazy">
     <lst name="defaults">
       <str name="echoParams">explicit</str>
@@ -684,9 +684,9 @@
       <str>elevator</str>
     </arr>
   </requestHandler>
-  
-  <!-- Update Request Handler.  
-       
+
+  <!-- Update Request Handler.
+
        http://wiki.apache.org/solr/UpdateXmlMessages
 
        The canonical Request Handler for Modifying the Index through
@@ -695,17 +695,17 @@
        Note: Since solr1.1 requestHandlers requires a valid content
        type header if posted in the body. For example, curl now
        requires: -H 'Content-type:text/xml; charset=utf-8'
-       
-       To override the request content type and force a specific 
-       Content-type, use the request parameter: 
+
+       To override the request content type and force a specific
+       Content-type, use the request parameter:
          ?update.contentType=text/csv
-       
+
        This handler will pick a response format to match the input
        if the 'wt' parameter is not explicit
     -->
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
-    <!-- See below for information on defining 
-         updateRequestProcessorChains that can be used by name 
+    <!-- See below for information on defining
+         updateRequestProcessorChains that can be used by name
          on each Update Request
       -->
     <!--
@@ -733,7 +733,7 @@
            field value analysis will be marked as "matched" for every
            token that is produces by the query analysis
    -->
-  <requestHandler name="/analysis/field" 
+  <requestHandler name="/analysis/field"
                   startup="lazy"
                   class="solr.FieldAnalysisRequestHandler" />
 
@@ -766,18 +766,18 @@
     request parameter that holds the query text to be analyzed. It
     also supports the "analysis.showmatch" parameter which when set to
     true, all field tokens that match the query tokens will be marked
-    as a "match". 
+    as a "match".
   -->
-  <requestHandler name="/analysis/document" 
-                  class="solr.DocumentAnalysisRequestHandler" 
+  <requestHandler name="/analysis/document"
+                  class="solr.DocumentAnalysisRequestHandler"
                   startup="lazy" />
 
   <!-- Admin Handlers
 
        Admin Handlers - This will register all the standard admin
-       RequestHandlers.  
+       RequestHandlers.
     -->
-  <requestHandler name="/admin/" 
+  <requestHandler name="/admin/"
                   class="solr.admin.AdminHandlers" />
   <!-- This single handler is equivalent to the following... -->
   <!--
@@ -789,14 +789,14 @@
      <requestHandler name="/admin/file"       class="solr.admin.ShowFileRequestHandler" >
     -->
   <!-- If you wish to hide files under ${solr.home}/conf, explicitly
-       register the ShowFileRequestHandler using: 
+       register the ShowFileRequestHandler using:
     -->
   <!--
-     <requestHandler name="/admin/file" 
+     <requestHandler name="/admin/file"
                      class="solr.admin.ShowFileRequestHandler" >
        <lst name="invariants">
-         <str name="hidden">synonyms.txt</str> 
-         <str name="hidden">anotherfile.txt</str> 
+         <str name="hidden">synonyms.txt</str>
+         <str name="hidden">anotherfile.txt</str>
        </lst>
      </requestHandler>
     -->
@@ -809,14 +809,14 @@
     <lst name="defaults">
       <str name="echoParams">all</str>
     </lst>
-    <!-- An optional feature of the PingRequestHandler is to configure the 
-         handler with a "healthcheckFile" which can be used to enable/disable 
+    <!-- An optional feature of the PingRequestHandler is to configure the
+         handler with a "healthcheckFile" which can be used to enable/disable
          the PingRequestHandler.
-         relative paths are resolved against the data dir 
+         relative paths are resolved against the data dir
       -->
     <!-- <str name="healthcheckFile">server-enabled.txt</str> -->
   </requestHandler>
-    
+
   <!-- Echo the request contents back to the client -->
   <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
     <lst name="defaults">
@@ -824,7 +824,7 @@
      <str name="echoHandler">true</str>
     </lst>
   </requestHandler>
-  
+
   <searchComponent class="solr.HighlightComponent" name="highlight">
     <highlighting>
       <!-- Configure the standard fragmenter -->
@@ -832,6 +832,10 @@
       <fragmenter name="gap" class="org.apache.solr.highlight.GapFragmenter" default="true">
         <lst name="defaults">
           <int name="hl.fragsize">100</int>
+          <int name="f.title.hl.fragsize">50000</int>
+          <int name="f.title_full.hl.fragsize">50000</int>
+          <int name="f.title_sub.hl.fragsize">50000</int>
+          <int name="f.title_alt.hl.fragsize">50000</int>
         </lst>
       </fragmenter>
 
@@ -860,7 +864,7 @@
   <!-- queryResponseWriter plugins... query responses will be written using the
     writer specified by the 'wt' request parameter matching the name of a registered
     writer.
-    The "default" writer is the default and will be used if 'wt' is not specified 
+    The "default" writer is the default and will be used if 'wt' is not specified
     in the request. XMLResponseWriter will be used if nothing is specified here.
     The json, python, and ruby writers are also available by default.
 
@@ -876,16 +880,16 @@
 
   <!-- XSLT response writer transforms the XML output by any xslt file found
        in Solr's conf/xslt directory.  Changes to xslt files are checked for
-       every xsltCacheLifetimeSeconds.  
+       every xsltCacheLifetimeSeconds.
    -->
   <queryResponseWriter name="xslt" class="org.apache.solr.response.XSLTResponseWriter">
     <int name="xsltCacheLifetimeSeconds">5</int>
-  </queryResponseWriter> 
-    
-  <!-- config for the admin interface --> 
+  </queryResponseWriter>
+
+  <!-- config for the admin interface -->
   <admin>
     <defaultQuery>shakespeare</defaultQuery>
-    
+
     <!-- configure a healthcheck file for servers behind a loadbalancer
     <healthcheck type="file">server-enabled</healthcheck>
     -->
