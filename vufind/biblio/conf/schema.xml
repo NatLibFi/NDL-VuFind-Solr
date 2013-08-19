@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <schema name="VuFind Bibliographic Index" version="1.2">
   <types>
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100"/>
     <fieldType name="textFacet" class="solr.TextField" sortMissingLast="true" omitNorms="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -110,6 +110,8 @@
     <fieldType name="tdouble" class="solr.TrieField" type="double" omitNorms="true" positionIncrementGap="0" indexed="true" stored="false" />
     <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" units="degrees" distErrPct="0.25" maxDistErr="0.009" />
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <!-- Date range is like unix timestamp but with only day precision (timestamp / 86400). Range is from year -9999 to year 9999. -->
+    <fieldType name="spatialDateRange" class="solr.SpatialRecursivePrefixTreeFieldType" geo="false" worldBounds="-4371587 -4371587 2932896 2932896" distErrPct="0" maxDistErr="1" units="degrees" />
   </types>
  <fields>
    <!-- Core Fields  -->
@@ -234,6 +236,8 @@
    <!-- Local dynamic fields for customization without schema modification -->
    <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
    <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_sdaterange"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="false"/>
+   <dynamicField name="*_sdaterange_mv"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false" />
 
    <!-- Fields for museum data (LIDO) -->
@@ -276,6 +280,11 @@
  <copyField source="author"    dest="author_browse"/>
  <copyField source="author2"    dest="author_browse"/>
  <copyField source="hierarchy_top_title" dest="hierarchy_browse"/>
+ <!-- CopyFields for combined date ranges -->
+ <copyField source="creation_sdaterange" dest="search_sdaterange_mv"/>
+ <copyField source="finding_sdaterange" dest="search_sdaterange_mv"/>
+ <copyField source="unit_sdaterange" dest="search_sdaterange_mv"/>
+ <copyField source="use_sdaterange" dest="search_sdaterange_mv"/>
  <!-- Default Boolean Operator -->
  <solrQueryParser defaultOperator="AND"/>
 </schema>
