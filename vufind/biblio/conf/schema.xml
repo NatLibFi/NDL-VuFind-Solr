@@ -280,11 +280,6 @@
  <copyField source="author"    dest="author_browse"/>
  <copyField source="author2"    dest="author_browse"/>
  <copyField source="hierarchy_top_title" dest="hierarchy_browse"/>
- <!-- CopyFields for combined date ranges -->
- <copyField source="creation_sdaterange" dest="search_sdaterange_mv"/>
- <copyField source="finding_sdaterange" dest="search_sdaterange_mv"/>
- <copyField source="unit_sdaterange" dest="search_sdaterange_mv"/>
- <copyField source="use_sdaterange" dest="search_sdaterange_mv"/>
  <!-- Default Boolean Operator -->
  <solrQueryParser defaultOperator="AND"/>
 </schema>
