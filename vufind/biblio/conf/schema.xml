@@ -269,6 +269,8 @@
  <copyField source="title_full" dest="title_fullStr"/>
  <copyField source="title_full" dest="title_full_unstemmed"/>
  <copyField source="author" dest="authorStr"/>
+ <!-- Copy author also to author2Str for all authors faceting -->
+ <copyField source="author" dest="author2Str"/>
  <copyField source="author2" dest="author2Str"/>
  <copyField source="author_additional" dest="author_additionalStr"/>
  <copyField source="publisher" dest="publisherStr"/>
