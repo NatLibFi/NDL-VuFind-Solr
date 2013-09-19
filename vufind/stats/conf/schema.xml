@@ -4,6 +4,7 @@
     <fieldtype name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
     <fieldtype name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
     <fieldtype name="date" class="solr.DateField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
   </types>
   <fields>
    <!-- Core Fields  -->
@@ -24,6 +25,9 @@
    <field name="word" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="type" type="string" indexed="true" stored="true" multiValued="true"/>
    <field name="noresults" type="boolean" indexed="true" stored="true"/>
+
+   <!-- Version for Solr -->
+   <field name="_version_" type="long" indexed="true" stored="true"/>
  </fields>
 
  <uniqueKey>id</uniqueKey>

@@ -18,6 +18,7 @@
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
       </analyzer>
     </fieldType>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
   </types>
  <fields>
    <field name="id" type="string" indexed="true" stored="true"/>
@@ -31,6 +32,9 @@
    <field name="department" type="text" indexed="true" stored="true"/>
    <field name="department_id" type="string" indexed="true" stored="true"/>
    <field name="department_str" type="string" indexed="true" stored="true"/>
+
+   <!-- Version for Solr -->
+   <field name="_version_" type="long" indexed="true" stored="true"/>
  </fields>
  <uniqueKey>id</uniqueKey>
  <defaultSearchField>course</defaultSearchField>
