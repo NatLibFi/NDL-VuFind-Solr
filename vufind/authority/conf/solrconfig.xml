@@ -176,6 +176,25 @@
 
   </query>
 
+  <!-- Enables a transaction log, currently used for real-time get.
+       "dir" - the target directory for transaction logs, defaults to the
+       solr data directory.  -->
+  <updateLog>
+    <str name="dir">${solr.data.dir:}</str>
+    <!-- if you want to take control of the synchronization you may specify the syncLevel as one of the
+         following where ''flush'' is the default. fsync will reduce throughput.
+    <str name="syncLevel">flush|fsync|none</str>
+    -->
+  </updateLog>
+
+  <requestHandler name="/get" class="solr.RealTimeGetHandler">
+    <lst name="defaults">
+      <str name="omitHeader">true</str>
+    </lst>
+  </requestHandler>
+
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+
   <!--
     Let the dispatch filter handler /select?qt=XXX
     handleSelect=true will use consistent error handling for /select and /update
