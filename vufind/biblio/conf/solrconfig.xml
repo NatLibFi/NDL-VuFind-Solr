@@ -218,6 +218,14 @@
       <maxTime>1200000</maxTime>
     </autoCommit>
 
+    <!-- Enables a transaction log, currently used for real-time get.
+         "dir" - the target directory for transaction logs, defaults to the
+         solr data directory.  -->
+    <updateLog>
+      <str name="dir">${solr.data.dir:}</str>
+      <str name="syncLevel">fsync</str>
+    </updateLog>
+
     <!-- The RunExecutableListener executes an external command.
          exe - the name of the executable to run
          dir - dir to use as the current working directory. default="."
@@ -412,16 +420,6 @@
     <maxWarmingSearchers>2</maxWarmingSearchers>
 
   </query>
-
-  <updateHandler class="solr.DirectUpdateHandler2">
-    <!-- Enables a transaction log, currently used for real-time get.
-         "dir" - the target directory for transaction logs, defaults to the
-         solr data directory.  -->
-    <updateLog>
-      <str name="dir">${solr.data.dir:}</str>
-      <str name="syncLevel">fsync</str>
-    </updateLog>
-  </updateHandler>
 
   <requestHandler name="/get" class="solr.RealTimeGetHandler">
     <lst name="defaults">
