@@ -181,7 +181,7 @@
          "dir" - the target directory for transaction logs, defaults to the
          solr data directory.  -->
     <updateLog>
-      <str name="dir">${solr.data.dir:}</str>
+      <str name="dir">${solr.solr.home:./solr}/authority</str>
       <str name="syncLevel">fsync</str>
     </updateLog>
   </updateHandler>
