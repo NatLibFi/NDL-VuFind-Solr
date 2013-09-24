@@ -413,16 +413,15 @@
 
   </query>
 
-  <!-- Enables a transaction log, currently used for real-time get.
-       "dir" - the target directory for transaction logs, defaults to the
-       solr data directory.  -->
-  <updateLog>
-    <str name="dir">${solr.data.dir:}</str>
-    <!-- if you want to take control of the synchronization you may specify the syncLevel as one of the 
-         following where ''flush'' is the default. fsync will reduce throughput.
-    <str name="syncLevel">flush|fsync|none</str>
-    -->
-  </updateLog>
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <!-- Enables a transaction log, currently used for real-time get.
+         "dir" - the target directory for transaction logs, defaults to the
+         solr data directory.  -->
+    <updateLog>
+      <str name="dir">${solr.data.dir:}</str>
+      <str name="syncLevel">fsync</str>
+    </updateLog>
+  </updateHandler>
 
   <requestHandler name="/get" class="solr.RealTimeGetHandler">
     <lst name="defaults">
