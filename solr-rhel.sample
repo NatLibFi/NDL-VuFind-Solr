@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# vufind-solr - Startup script for VuFind Solr
+
+# chkconfig: 35 85 15
+# description: VuFind Solr
+# processname: vufind-solr
+# pidfile: /usr/local/vufind-solr/vufind-solr.pid
+
+. /etc/rc.d/init.d/functions
+
+SOLR_DAEMON=/usr/local/vufind-solr/solr.sh
+PIDFILE=/usr/local/vufind-solr/vufind-solr.pid
+SOLR_USER=solr
+
+start()
+{
+  echo -n $"Starting vufind-solr: "
+  export JETTY_PID=$PIDFILE
+  daemon --user "$SOLR_USER" $SOLR_DAEMON start
+  RETVAL=$?
+  echo
+}
+
+stop()
+{
+  echo -n $"Stopping vufind-solr: "
+  export JETTY_PID=$PIDFILE
+  daemon --user "$SOLR_USER" $SOLR_DAEMON stop
+  RETVAL=$?
+  echo
+}
+
+restart () {
+        stop
+        sleep 2
+        start
+}
+
+RETVAL=0
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart|reload|force-reload)
+    restart
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    RETVAL=1
+esac
+
+exit $RETVAL
