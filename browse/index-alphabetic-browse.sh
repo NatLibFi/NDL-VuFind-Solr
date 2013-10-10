@@ -8,7 +8,7 @@ CLASSPATH="browse-indexing.jar:../solr-webapp/webapp/WEB-INF/lib/*:../lib/*"
 
 bib_index="../vufind/biblio/index"
 auth_index="../vufind/authority/index"
-index_dir="../alphabetical_browse"
+index_dir="../vufind/alphabetical_browse"
 
 mkdir -p "$index_dir"
 
