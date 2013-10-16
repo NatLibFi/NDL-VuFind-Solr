@@ -6,9 +6,19 @@ set -x
 cd "`dirname $0`"
 CLASSPATH="browse-indexing.jar:../solr-webapp/webapp/WEB-INF/lib/*:../lib/*"
 
-bib_index="../vufind/biblio/index"
-auth_index="../vufind/authority/index"
+core_dir="../vufind"
 index_dir="../vufind/alphabetical_browse"
+
+if [ -e $core_dir/biblio/index.properties ]; then
+  bib_index=$core_dir/biblio/$(awk -F "=" '{if (! ($0 ~ /^[;#]/) && $0 ~ /index/) print $2}' $core_dir/biblio/index.properties)
+else
+  bib_index="$core_dir/biblio/index"
+fi
+if [ -e $core_dir/authority/index.properties ]; then
+  auth_index=$core_dir/authority/$(awk -F "=" '{if (! ($0 ~ /^[;#]/) && $0 ~ /index/) print $2}' $core_dir/authority/index.properties)
+else
+  auth_index="$core_dir/authority/index"
+fi
 
 mkdir -p "$index_dir"
 
