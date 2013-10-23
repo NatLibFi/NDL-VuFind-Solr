@@ -37,7 +37,7 @@
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
        If replication is in use, this should match the replication configuration. -->
-  <dataDir>${solr.solr.home:./solr}/biblio</dataDir>
+  <dataDir>${solr.core.instanceDir}</dataDir>
 
   <indexConfig>
     <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a
@@ -222,7 +222,7 @@
          "dir" - the target directory for transaction logs, defaults to the
          solr data directory.  -->
     <updateLog>
-      <str name="dir">${solr.solr.home:./solr}/biblio</str>
+      <str name="dir">${solr.core.instanceDir}</str>
       <str name="syncLevel">fsync</str>
     </updateLog>
 
@@ -277,9 +277,9 @@
          -->
     <filterCache
       class="solr.FastLRUCache"
-      size="300000"
-      initialSize="300000"
-      autowarmCount="5000"/>
+      size="30000"
+      initialSize="3000"
+      autowarmCount="1024"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
@@ -287,8 +287,8 @@
     <queryResultCache
       class="solr.LRUCache"
       size="100000"
-      initialSize="100000"
-      autowarmCount="5000"/>
+      initialSize="10000"
+      autowarmCount="1024"/>
 
     <fieldValueCache
       class="solr.LRUCache"
@@ -554,8 +554,8 @@
   </requestHandler>
 
   <requestHandler name="/browse" class="au.gov.nla.solr.handler.BrowseRequestHandler">
-    <str name="authIndexPath">${solr.solr.home:./solr}/authority/index</str>
-    <str name="bibIndexPath">${solr.solr.home:./solr}/biblio/index</str>
+    <str name="authIndexPath">${solr.core.instanceDir}/index</str>
+    <str name="bibIndexPath">${solr.core.instanceDir}/index</str>
 
     <!-- These definitions should match the field names used in the authority index. -->
     <str name="preferredHeadingField">heading</str>
@@ -563,37 +563,36 @@
     <str name="seeAlsoHeadingField">see_also</str>
     <str name="scopeNoteField">scope_note</str>
 
-
     <str name="sources">topic,author,title,lcc,dewey,hierarchy</str>
 
     <lst name="topic">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/topic_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/topic_browse.db</str>
       <str name="field">topic_browse</str>
     </lst>
 
     <lst name="author">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/author_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/author_browse.db</str>
       <str name="field">author_browse</str>
     </lst>
 
     <lst name="title">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/title_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/title_browse.db</str>
       <str name="field">title_fullStr</str>
     </lst>
 
     <lst name="lcc">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/lcc_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/lcc_browse.db</str>
       <str name="field">callnumber-a</str>
     </lst>
 
     <lst name="dewey">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/dewey_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/dewey_browse.db</str>
       <str name="field">dewey-raw</str>
       <str name="ignoreDiacritics">yes</str>
     </lst>
 
     <lst name="hierarchy">
-      <str name="DBpath">${solr.solr.home:./solr}/alphabetical_browse/hierarchy_browse.db</str>
+      <str name="DBpath">${solr.core.instanceDir}/alphabetical_browse/hierarchy_browse.db</str>
       <str name="field">hierarchy_browse</str>
     </lst>
 

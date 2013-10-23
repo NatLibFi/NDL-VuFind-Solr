@@ -38,7 +38,7 @@
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
        If replication is in use, this should match the replication configuration. -->
-  <dataDir>${solr.solr.home:./solr}/stats</dataDir>
+  <dataDir>${solr.core.instanceDir}</dataDir>
 
   <!-- the default high-performance update handler -->
   <updateHandler class="solr.DirectUpdateHandler2">
@@ -53,7 +53,7 @@
          "dir" - the target directory for transaction logs, defaults to the
          solr data directory.  -->
     <updateLog>
-      <str name="dir">${solr.solr.home:./solr}/stats</str>
+      <str name="dir">${solr.core.instanceDir}</str>
       <str name="syncLevel">fsync</str>
     </updateLog>
 
