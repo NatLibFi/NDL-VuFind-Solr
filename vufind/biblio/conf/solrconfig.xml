@@ -554,8 +554,8 @@
   </requestHandler>
 
   <requestHandler name="/browse" class="au.gov.nla.solr.handler.BrowseRequestHandler">
-    <str name="authIndexPath">./vufind/${solr.core.instanceDir:biblio}/auth_index</str>
-    <str name="bibIndexPath">./vufind/${solr.core.instanceDir:biblio}/index</str>
+    <str name="authIndexPath">${solr.core.instanceDir:./vufind/biblio}/auth_index</str>
+    <str name="bibIndexPath">${solr.core.instanceDir:./vufind/biblio}/index</str>
  
     <!-- These definitions should match the field names used in the authority index. -->
     <str name="preferredHeadingField">heading</str>
