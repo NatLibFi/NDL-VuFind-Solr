@@ -103,9 +103,7 @@
     <fieldType name="binary" class="solr.BinaryField"/>
     
     <!-- Field types for e.g. museum data -->
-    <fieldType name="negativeSupportingDate" class="fi.nationallibrary.ndl.solr.schema.NegativeSupportingDateField" sortMissingLast="true" omitNorms="true"/>
     <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
-    <fieldType name="dateRange" class="fi.nationallibrary.ndl.solr.schema.RangeField" subFieldType="negativeSupportingDate" separator=","/>
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
     <fieldType name="tdouble" class="solr.TrieField" type="double" omitNorms="true" positionIncrementGap="0" indexed="true" stored="false" />
     <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" units="degrees" distErrPct="0.25" maxDistErr="0.009" />
@@ -235,7 +233,6 @@
 
    <!-- Local dynamic fields for customization without schema modification -->
    <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
-   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
    <dynamicField name="*_sdaterange"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="false"/>
    <dynamicField name="*_sdaterange_mv"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="true"/>
    <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false" />

@@ -54,7 +54,7 @@
          solr data directory.  -->
     <updateLog>
       <str name="dir">${solr.core.instanceDir}</str>
-      <str name="syncLevel">fsync</str>
+      <str name="syncLevel">none</str>
     </updateLog>
 
     <!-- The RunExecutableListener executes an external command.
