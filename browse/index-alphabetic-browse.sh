@@ -1,19 +1,28 @@
 #!/bin/bash
 
+if [ "$#" -ne 1 ]
+then
+  echo "Usage: index_alphabetic_browse.sh core_directory"
+  echo ""
+  echo "  e.g. ./index_alphabetic_browse.sh ../biblio1_shard1_replica1"
+  echo ""
+  exit 1
+fi
+
 set -e
 set -x
 
 cd "`dirname $0`"
 CLASSPATH="browse-indexing.jar:../solr-webapp/webapp/WEB-INF/lib/*:../lib/*"
 
-core_dir="../vufind"
-index_dir="../vufind/alphabetical_browse"
+core_dir=$1
+bib_index="${core_dir}/index"
+index_dir="${core_dir}/alphabetical_browse"
 
-if [ -e $core_dir/biblio/index.properties ]; then
-  bib_index=$core_dir/biblio/$(awk -F "=" '{if (! ($0 ~ /^[;#]/) && $0 ~ /index/) print $2}' $core_dir/biblio/index.properties)
-else
-  bib_index="$core_dir/biblio/index"
+if [ -e ${core_dir}/index.properties ]; then
+  bib_index=$core_dir/$(awk -F "=" '{if (! ($0 ~ /^[;#]/) && $0 ~ /index/) print $2}' ${core_dir}/index.properties)
 fi
+
 if [ -e $core_dir/authority/index.properties ]; then
   auth_index=$core_dir/authority/$(awk -F "=" '{if (! ($0 ~ /^[;#]/) && $0 ~ /index/) print $2}' $core_dir/authority/index.properties)
 else
