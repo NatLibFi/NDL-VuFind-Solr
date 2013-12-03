@@ -427,10 +427,20 @@ case "$ACTION" in
   start)
         echo "Starting Solr ... "
 
-        if [ -f $JETTY_PID ]
+        if [ -s $JETTY_PID ]
         then
-            echo "Already Running!!"
-            exit 1
+            OLD_PID=`cat $JETTY_PID`
+            [ -e /proc/$OLD_PID ] && OLD_RUN_CMD=`cat -v /proc/$OLD_PID/cmdline | sed 's/\^@/\ /g' | sed 's/ *$//g'`
+            # Remove extra whitespace
+            NEW_RUN_CMD=`echo "$RUN_CMD" | xargs`
+            if [ "$OLD_RUN_CMD" != "$NEW_RUN_CMD" ]
+            then
+                rm -f $JETTY_PID
+                echo "Removed stale pid file $JETTY_PID"
+            else
+                echo "Already Running!!"
+                exit 1
+            fi
         fi
 
         # Export variables for Import Tool
@@ -444,6 +454,11 @@ case "$ACTION" in
         ;;
 
   stop)
+        if [ ! -s $JETTY_PID ]
+        then
+            echo "Not running, pid file not found"
+            exit 1
+        fi
         PID=`cat $JETTY_PID 2>/dev/null`
         echo "Shutting down Solr ... "
         kill $PID 2>/dev/null
