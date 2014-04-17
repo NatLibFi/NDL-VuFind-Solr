@@ -306,8 +306,8 @@
     <filterCache
       class="solr.FastLRUCache"
       size="30000"
-      initialSize="3000"
-      autowarmCount="1024"/>
+      initialSize="1000"
+      autowarmCount="1000"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
          document ids (DocList) based on a query, a sort, and the range
@@ -315,22 +315,22 @@
     <queryResultCache
       class="solr.LRUCache"
       size="100000"
-      initialSize="10000"
-      autowarmCount="1024"/>
+      initialSize="1000"
+      autowarmCount="1000"/>
 
     <fieldValueCache
       class="solr.LRUCache"
-      size="100000"
-      initialSize="4096"
-      autowarmCount="4096"/>
+      size="1000"
+      initialSize="50"
+      autowarmCount="50"/>
 
   <!-- documentCache caches Lucene Document objects (the stored fields for each document).
        Since Lucene internal document ids are transient, this cache will not be autowarmed.  -->
     <documentCache
       class="solr.LRUCache"
-      size="50000"
-      initialSize="50000"
-      autowarmCount="1000"/>
+      size="5000"
+      initialSize="500"
+      autowarmCount="100"/>
 
     <!-- If true, stored fields that are not requested will be loaded lazily.
 
@@ -396,15 +396,17 @@
           <str name="facet.field">building</str>
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
-          <str name="facet.field">publishDate</str>
-          <str name="facet.field">callnumber-first</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">authorStr</str>
+          <str name="facet.field">author2Str</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">sector_str_mv</str>
         </lst>
       </arr>
     </listener>
@@ -423,15 +425,17 @@
           <str name="facet.field">building</str>
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
-          <str name="facet.field">publishDate</str>
-          <str name="facet.field">callnumber-first</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">authorStr</str>
+          <str name="facet.field">author2Str</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
           <str name="facet.field">geographic_facet</str>
-          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">sector_str_mv</str>
         </lst>
       </arr>
     </listener>
