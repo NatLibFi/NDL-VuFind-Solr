@@ -1719,7 +1719,9 @@
 #"\u00D6" => "O"
 
 # Ø  [LATIN CAPITAL LETTER O WITH STROKE]
-"\u00D8" => "O"
+#"\u00D8" => "O"
+# *** CUSTOM ***
+"\u00D8" => "\u00D6"
 
 # Ō  [LATIN CAPITAL LETTER O WITH MACRON]
 "\u014C" => "O"
@@ -1851,7 +1853,9 @@
 #"\u00F6" => "o"
 
 # ø  [LATIN SMALL LETTER O WITH STROKE]
-"\u00F8" => "o"
+#"\u00F8" => "o"
+# *** CUSTOM ***
+"\u00F8" => "\u00F6"
 
 # ō  [LATIN SMALL LETTER O WITH MACRON]
 "\u014D" => "o"
