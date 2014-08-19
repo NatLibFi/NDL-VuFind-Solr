@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Startup script for the VuFind Jetty Server under *nix systems
 # (it works under NT/cygwin too).
@@ -66,7 +66,7 @@
 #   first available of /var/run, /usr/var/run, and /tmp if not set.
 #
 # JETTY_PID
-#   The Jetty PID file, defaults to $JETTY_RUN/jetty.pid
+#   The Jetty PID file, defaults to $JETTY_RUN/vufind-solr.pid
 #
 # JETTY_ARGS
 #   The default arguments to pass to jetty.
@@ -436,9 +436,9 @@ case "$ACTION" in
             if [ "$OLD_RUN_CMD" != "$NEW_RUN_CMD" ]
             then
                 rm -f $JETTY_PID
-                echo "Removed stale pid file $JETTY_PID"
+                echo "Removed stale Solr pid file $JETTY_PID"
             else
-                echo "Already Running!!"
+                echo "Solr already running!!"
                 exit 1
             fi
         fi
@@ -456,14 +456,26 @@ case "$ACTION" in
   stop)
         if [ ! -s $JETTY_PID ]
         then
-            echo "Not running, pid file not found"
+            echo "Solr not running, pid file not found"
             exit 1
         fi
         PID=`cat $JETTY_PID 2>/dev/null`
-        echo "Shutting down Solr ... "
+        echo -n "Shutting down Solr $PID.."
         kill $PID 2>/dev/null
-        sleep 2
-        kill -9 $PID 2>/dev/null
+        ((time = 0))
+        while [ $time -lt 30 ]; do
+          sleep 1
+          echo -n "."
+          if [ ! -e /proc/$PID ]; then
+            break
+          fi 
+          ((time += 1))
+        done
+        echo
+        if [ -e /proc/$PID ]; then
+          echo "Could not shut down Solr"
+          exit 1
+        fi
         rm -f $JETTY_PID
         echo "STOPPED `date`" >>$JETTY_CONSOLE
         ;;
