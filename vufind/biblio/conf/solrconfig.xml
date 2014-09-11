@@ -406,6 +406,7 @@
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
           <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
         </lst>
       </arr>
     </listener>
@@ -435,6 +436,7 @@
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
           <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
         </lst>
       </arr>
     </listener>
