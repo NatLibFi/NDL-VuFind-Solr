@@ -99,6 +99,7 @@
     </analyzer>
   </fieldType>
   <fieldType name="date" class="solr.TrieDateField" sortMissingLast="true" omitNorms="true" precisionStep="6"/>
+  <fieldType name="random" class="solr.RandomSortField" indexed="true" />
   <fieldType name="binary" class="solr.BinaryField"/>
   
   <!-- Field types for e.g. museum data -->
@@ -228,6 +229,7 @@
   <dynamicField name="*_txtF_mv" type="textFacet" indexed="true" stored="true" multiValued="true"/>
   <dynamicField name="*_txtP" type="textProper" indexed="true" stored="true"/>
   <dynamicField name="*_txtP_mv" type="textProper" indexed="true" stored="true" multiValued="true"/>
+  <dynamicField name="*_random" type="random" />
 
   <!-- Local dynamic fields for customization without schema modification -->
   <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
@@ -276,6 +278,8 @@
 	<copyField source="author"    dest="author_browse"/>
 	<copyField source="author2"    dest="author_browse"/>
 	<copyField source="hierarchy_top_title" dest="hierarchy_browse"/>
+	<!-- textProper version of title for unstemmed search -->
+	<copyField source="title"    dest="title_txtP"/>
 	<!-- Default Boolean Operator -->
 	<solrQueryParser defaultOperator="AND"/>
 </schema>
