@@ -407,6 +407,8 @@
           <str name="facet.field">first_indexed</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
         </lst>
       </arr>
     </listener>
@@ -437,6 +439,8 @@
           <str name="facet.field">first_indexed</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
         </lst>
       </arr>
     </listener>
