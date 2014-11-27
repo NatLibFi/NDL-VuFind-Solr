@@ -213,7 +213,7 @@
 
          Perform a hard commit automatically under certain conditions.
          Instead of enabling autoCommit, consider using "commitWithin"
-         when adding documents. 
+         when adding documents.
 
          http://wiki.apache.org/solr/UpdateXmlMessages
 
@@ -222,7 +222,7 @@
 
          maxTime - Maximum amount of time in ms that is allowed to pass
                    since a document was added before automatically
-                   triggering a new commit. 
+                   triggering a new commit.
          openSearcher - if false, the commit causes recent index changes
            to be flushed to stable storage, but does not cause a new
            searcher to be opened to make those changes visible.
@@ -241,8 +241,8 @@
          faster and more near-realtime friendly than a hard commit.
       -->
     <!--
-      <autoSoftCommit> 
-        <maxTime>1000</maxTime> 
+      <autoSoftCommit>
+        <maxTime>1000</maxTime>
       </autoSoftCommit>
      -->
 
@@ -464,7 +464,7 @@
     </lst>
   </requestHandler>
 
-  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" /> 
+  <requestHandler name="/replication" class="solr.ReplicationHandler" startup="lazy" />
 
   <!--
     Let the dispatch filter handler /select?qt=XXX
@@ -614,7 +614,7 @@
   <requestHandler name="/browse" class="au.gov.nla.solr.handler.BrowseRequestHandler">
     <str name="authIndexPath">${solr.core.instanceDir/data:./vufind/biblio}/auth_index</str>
     <str name="bibIndexPath">${solr.core.instanceDir/data:./vufind/biblio}/index</str>
- 
+
     <!-- These definitions should match the field names used in the authority index. -->
     <str name="preferredHeadingField">heading</str>
     <str name="useInsteadHeadingField">use_for</str>
@@ -851,7 +851,6 @@
        RequestHandlers.
     -->
   <requestHandler name="/admin/"
-                  startup="lazy"
                   class="solr.admin.AdminHandlers"/>
   <!-- This single handler is equivalent to the following... -->
   <!--
