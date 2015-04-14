@@ -102,3 +102,5 @@ SOLR_HOME=vufind
 # and you are using SSL, then the start script will use SOLR_PORT for the SSL port
 #SOLR_SSL_PORT=
 
+# Uncomment to enable SolrCloud mode
+#SOLR_MODE=solrcloud
