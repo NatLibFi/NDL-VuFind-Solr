@@ -57,7 +57,6 @@
   <field name="_version_" type="long" indexed="true" stored="true"/>
 
   <uniqueKey>id</uniqueKey>
-  <defaultSearchField>allfields</defaultSearchField>
 
   <!-- CopyFields for Keyword Searching -->
   <copyField source="heading" dest="heading_keywords" />

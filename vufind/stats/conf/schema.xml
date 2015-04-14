@@ -28,9 +28,7 @@
   <field name="_version_" type="long" indexed="true" stored="true"/>
 
 	<uniqueKey>id</uniqueKey>
-	
-	<defaultSearchField>id</defaultSearchField>
-	
+		
 	<!-- Default Boolean Operator -->
 	<solrQueryParser defaultOperator="OR"/>
 </schema>

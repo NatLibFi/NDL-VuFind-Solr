@@ -33,7 +33,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>LUCENE_4_10_2</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_5_0_0</luceneMatchVersion>
 
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
@@ -447,27 +447,6 @@
     class="solr.DocumentAnalysisRequestHandler"
     startup="lazy" />
     
-    <!--
-      Admin Handlers - This will register all the standard admin RequestHandlers.  Adding
-      this single handler is equivolent to registering:
-
-      <requestHandler name="/admin/luke"       class="org.apache.solr.handler.admin.LukeRequestHandler" />
-      <requestHandler name="/admin/system"     class="org.apache.solr.handler.admin.SystemInfoHandler" />
-      <requestHandler name="/admin/plugins"    class="org.apache.solr.handler.admin.PluginInfoHandler" />
-      <requestHandler name="/admin/threads"    class="org.apache.solr.handler.admin.ThreadDumpHandler" />
-      <requestHandler name="/admin/properties" class="org.apache.solr.handler.admin.PropertiesRequestHandler" />
-      <requestHandler name="/admin/file"       class="org.apache.solr.handler.admin.ShowFileRequestHandler" >
-
-      If you wish to hide files under ${solr.home}/conf, explicitly register the ShowFileRequestHandler using:
-      <requestHandler name="/admin/file" class="org.apache.solr.handler.admin.ShowFileRequestHandler" >
-      <lst name="invariants">
-      <str name="hidden">synonyms.txt</str>
-      <str name="hidden">anotherfile.txt</str>
-      </lst>
-      </requestHandler>
-    -->
-    <requestHandler name="/admin/" class="org.apache.solr.handler.admin.AdminHandlers" />
-
     <!-- ping/healthcheck -->
     <requestHandler name="/admin/ping" class="PingRequestHandler">
       <lst name="defaults">

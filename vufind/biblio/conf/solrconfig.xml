@@ -32,7 +32,7 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>LUCENE_4_10_2</luceneMatchVersion>
+  <luceneMatchVersion>LUCENE_5_0_0</luceneMatchVersion>
 
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
@@ -396,7 +396,6 @@
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">topic_facet</str>
           <str name="facet.field">author2Str</str>
           <str name="facet.field">language</str>
@@ -405,6 +404,7 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
           <str name="facet.field">original_lng_str_mv</str>
@@ -428,7 +428,6 @@
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">topic_facet</str>
           <str name="facet.field">author2Str</str>
           <str name="facet.field">language</str>
@@ -437,6 +436,7 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
           <str name="facet.field">original_lng_str_mv</str>
@@ -524,12 +524,7 @@
   <requestHandler name="standard" class="solr.StandardRequestHandler" default="true">
     <!-- default values for query parameters -->
     <lst name="defaults">
-       <str name="echoParams">explicit</str>
-       <!--
-       <int name="rows">10</int>
-       <str name="fl">*</str>
-       <str name="version">2.1</str>
-        -->
+      <str name="echoParams">explicit</str>
       <str name="spellcheck.extendedResults">true</str>
       <str name="spellcheck.onlyMorePopular">true</str>
       <str name="spellcheck.count">20</str>
@@ -538,6 +533,7 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
+      <str name="df">allfields</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
@@ -564,6 +560,7 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
+      <str name="df">allfields</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
@@ -585,6 +582,7 @@
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
       <str name="lowercaseOperators">false</str>
+      <str name="df">allfields</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
@@ -609,51 +607,6 @@
       <int name="mlt.count">5</int>
       <int name="rows">5</int>
     </lst>
-  </requestHandler>
-
-  <requestHandler name="/browse" class="au.gov.nla.solr.handler.BrowseRequestHandler">
-    <str name="authIndexPath">${solr.core.instanceDir/data:./vufind/biblio}/auth_index</str>
-    <str name="bibIndexPath">${solr.core.instanceDir/data:./vufind/biblio}/index</str>
-
-    <!-- These definitions should match the field names used in the authority index. -->
-    <str name="preferredHeadingField">heading</str>
-    <str name="useInsteadHeadingField">use_for</str>
-    <str name="seeAlsoHeadingField">see_also</str>
-    <str name="scopeNoteField">scope_note</str>
-
-    <str name="sources">topic,author,title,lcc,dewey,hierarchy</str>
-
-    <lst name="topic">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/topic_browse.db</str>
-      <str name="field">topic_browse</str>
-    </lst>
-
-    <lst name="author">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/author_browse.db</str>
-      <str name="field">author_browse</str>
-    </lst>
-
-    <lst name="title">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/title_browse.db</str>
-      <str name="field">title_fullStr</str>
-    </lst>
-
-    <lst name="lcc">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/lcc_browse.db</str>
-      <str name="field">callnumber-a</str>
-    </lst>
-
-    <lst name="dewey">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/dewey_browse.db</str>
-      <str name="field">dewey-raw</str>
-      <str name="ignoreDiacritics">yes</str>
-    </lst>
-
-    <lst name="hierarchy">
-      <str name="DBpath">${solr.core.instanceDir}/data/alphabetical_browse/hierarchy_browse.db</str>
-      <str name="field">hierarchy_browse</str>
-    </lst>
-
   </requestHandler>
 
   <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
@@ -845,22 +798,6 @@
                   class="solr.DocumentAnalysisRequestHandler"
                   startup="lazy" />
 
-  <!-- Admin Handlers
-
-       Admin Handlers - This will register all the standard admin
-       RequestHandlers.
-    -->
-  <requestHandler name="/admin/"
-                  class="solr.admin.AdminHandlers"/>
-  <!-- This single handler is equivalent to the following... -->
-  <!--
-     <requestHandler name="/admin/luke"       class="solr.admin.LukeRequestHandler" />
-     <requestHandler name="/admin/system"     class="solr.admin.SystemInfoHandler" />
-     <requestHandler name="/admin/plugins"    class="solr.admin.PluginInfoHandler" />
-     <requestHandler name="/admin/threads"    class="solr.admin.ThreadDumpHandler" />
-     <requestHandler name="/admin/properties" class="solr.admin.PropertiesRequestHandler" />
-     <requestHandler name="/admin/file"       class="solr.admin.ShowFileRequestHandler" >
-    -->
   <!-- If you wish to hide files under ${solr.home}/conf, explicitly
        register the ShowFileRequestHandler using:
     -->
