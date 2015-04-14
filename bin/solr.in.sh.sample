@@ -77,7 +77,7 @@ ENABLE_REMOTE_JMX_OPTS="false"
 
 # Path to a directory where Solr creates index files, the specified directory
 # must contain a solr.xml; by default, Solr will use server/solr
-SOLR_HOME=vufind
+SOLR_HOME=/data/solr/vufind
 
 # Solr provides a default Log4J configuration properties file in server/resources
 # however, you may want to customize the log settings and file appender location
