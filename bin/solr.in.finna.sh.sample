@@ -19,7 +19,9 @@
 #SOLR_JAVA_HOME=""
 
 # Increase Java Min/Max Heap as needed to support your indexing / query needs
-SOLR_JAVA_MEM="-Xms16G -Xmx32G"
+#SOLR_JAVA_MEM="-Xms16G -Xmx32G"
+# Solr 5.1 fails to use the above setting, so use SOLR_HEAP as a workaround
+SOLR_HEAP="32G" 
 
 # Enable verbose GC logging
 GC_LOG_OPTS="-verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails \
