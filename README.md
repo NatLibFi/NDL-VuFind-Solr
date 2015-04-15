@@ -11,7 +11,7 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
   - jts
   - jtsio
   - libvoikko
-  - lucene-analyzers-icu
+  - lucene-analyzers-icu (from contrib/analysis-extras/lucene-libs/)
   - solrvoikko2
 - The docs directory has been removed
 

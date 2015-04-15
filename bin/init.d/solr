@@ -33,7 +33,7 @@
 #   update-rc.d solr enable
 
 # Where you extracted the Solr distribution bundle
-SOLR_INSTALL_DIR=/data/solr
+SOLR_INSTALL_DIR=/opt/solr
 
 if [ ! -d "$SOLR_INSTALL_DIR" ]; then
   echo "$SOLR_INSTALL_DIR not found! Please check the SOLR_INSTALL_DIR setting in your $0 script."
@@ -44,7 +44,7 @@ fi
 # variables used by the bin/solr script. It's highly recommended to define this script so
 # that you can keep the Solr binary files separated from live files (pid, logs, index data, etc)
 # see bin/solr.in.sh for an example
-SOLR_ENV=/data/solr/bin/solr.in.sh
+SOLR_ENV=/var/solr/solr.in.sh
 
 if [ ! -f "$SOLR_ENV" ]; then
   echo "$SOLR_ENV not found! Please check the SOLR_ENV setting in your $0 script."

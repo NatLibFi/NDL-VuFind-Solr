@@ -861,7 +861,7 @@
 
   <initParams path="/update/**,/query,/select,/tvrh,/elevate,/spell,/browse">
     <lst name="defaults">
-      <str name="df">_text</str>
+      <str name="df">_text_</str>
     </lst>
   </initParams>
 
@@ -882,9 +882,39 @@
     <lst name="defaults">
       <str name="lowernames">true</str>
       <str name="fmap.meta">ignored_</str>
-      <str name="fmap.content">_text</str>
+      <str name="fmap.content">_text_</str>
     </lst>
   </requestHandler>
+
+  <!--
+    The export request handler is used to export full sorted result sets.
+    Do not change these defaults.
+  -->
+
+  <requestHandler name="/export" class="solr.SearchHandler">
+    <lst name="invariants">
+      <str name="rq">{!xport}</str>
+      <str name="wt">xsort</str>
+      <str name="distrib">false</str>
+    </lst>
+
+    <arr name="components">
+      <str>query</str>
+    </arr>
+  </requestHandler>
+
+
+  <!--
+  Distributed Stream processing.
+  -->
+
+  <requestHandler name="/stream" class="solr.StreamHandler">
+    <lst name="invariants">
+      <str name="wt">json</str>
+      <str name="distrib">false</str>
+    </lst>
+  </requestHandler>
+
 
 
   <!-- Field Analysis Request Handler

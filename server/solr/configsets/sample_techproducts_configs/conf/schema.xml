@@ -93,6 +93,8 @@
        This will increase storage costs.
      termOffsets: Store offset information with the term vector. This 
        will increase storage costs.
+     termPayloads: Store payload information with the term vector. This
+       will increase storage costs.
      required: The field is required.  It will throw an error if the
        value does not exist
      default: a value that should be used if no value is specified
@@ -119,6 +121,11 @@
    <!-- Only remove the "id" field if you have a very good reason to. While not strictly
      required, it is highly recommended. A <uniqueKey> is present in almost all Solr 
      installations. See the <uniqueKey> declaration below where <uniqueKey> is set to "id".
+     Do NOT change the type and apply index-time analysis to the <uniqueKey> as it will likely 
+     make routing in SolrCloud and document replacement in general fail. Limited _query_ time
+     analysis is possible as long as the indexing process is guaranteed to index the term
+     in a compatible way. Any analysis applied to the <uniqueKey> should _not_ produce multiple
+     tokens
    -->   
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
         

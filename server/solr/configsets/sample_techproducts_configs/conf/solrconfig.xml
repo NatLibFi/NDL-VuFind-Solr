@@ -805,6 +805,21 @@
      <lst name="defaults">
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
+       <!-- Controls the distribution of a query to shards other than itself.
+            Consider making 'preferLocalShards' true when:
+              1) maxShardsPerNode > 1
+              2) Number of shards > 1
+              3) CloudSolrClient or LbHttpSolrServer is used by clients.
+            Without this option, every core broadcasts the distributed query to
+            a replica of each shard where the replicas are chosen randomly.
+            This option directs the cores to prefer cores hosted locally, thus
+            preventing network delays between machines.
+            This behavior also immunizes a bad/slow machine from slowing down all
+            the good machines (if those good machines were querying this bad one).
+
+            Specify this option=false for clients connecting through HttpSolrServer
+       -->
+       <bool name="preferLocalShards">false</bool>
      </lst>
     <!-- In addition to defaults, "appends" params can be specified
          to identify values which should be appended to the list of
@@ -887,6 +902,18 @@
     <arr name="components">
       <str>query</str>
     </arr>
+  </requestHandler>
+
+
+  <!--
+  Distributed Stream processing.
+  -->
+
+  <requestHandler name="/stream" class="solr.StreamHandler">
+    <lst name="invariants">
+      <str name="wt">json</str>
+      <str name="distrib">false</str>
+    </lst>
   </requestHandler>
 
 
@@ -1334,13 +1361,16 @@
     </arr>
   </requestHandler>
 
-  <!-- This is disabled by default because it currently causes long startup times on 
-       big indexes, even when never used.  See SOLR-6679 for background.
-
-       To use this suggester, set the "solr.suggester.enabled=true" system property
+  <!-- The SuggestComponent in Solr provides users with automatic suggestions for query terms. 
+       You can use this to implement a powerful auto-suggest feature in your search application.
+       As with the rest of this solrconfig.xml file, the configuration of this component is purely
+       an example that applies specifically to this configset and example documents. 
+       
+       More information about this component and other configuration options are described in the
+       "Suggester" section of the reference guide available at 
+       http://archive.apache.org/dist/lucene/solr/ref-guide
     -->
-  <searchComponent name="suggest" class="solr.SuggestComponent" 
-                   enable="${solr.suggester.enabled:false}"     >
+  <searchComponent name="suggest" class="solr.SuggestComponent">
     <lst name="suggester">
       <str name="name">mySuggester</str>
       <str name="lookupImpl">FuzzyLookupFactory</str>      
@@ -1348,11 +1378,12 @@
       <str name="field">cat</str>
       <str name="weightField">price</str>
       <str name="suggestAnalyzerFieldType">string</str>
+      <str name="buildOnStartup">false</str>
     </lst>
   </searchComponent>
 
   <requestHandler name="/suggest" class="solr.SearchHandler" 
-                  startup="lazy" enable="${solr.suggester.enabled:false}" >
+                  startup="lazy" >
     <lst name="defaults">
       <str name="suggest">true</str>
       <str name="suggest.count">10</str>
@@ -1361,7 +1392,6 @@
       <str>suggest</str>
     </arr>
   </requestHandler>
-  -->
 
 
   <!-- Term Vector Component
