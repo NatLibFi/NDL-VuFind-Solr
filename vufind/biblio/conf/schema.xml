@@ -106,7 +106,7 @@
   <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
   <fieldType name="tdouble" class="solr.TrieField" type="double" omitNorms="true" positionIncrementGap="0" indexed="true" stored="false" />
-  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" geo="true" distErrPct="0.25" maxDistErr="1" />
+  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" />
   <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
   <!-- (Deprecated) Date range is like unix timestamp but with only day precision (timestamp / 86400). Range is from year -9999 to year 9999. -->
   <fieldType name="spatialDateRange" class="solr.SpatialRecursivePrefixTreeFieldType" geo="false" worldBounds="ENVELOPE(-4371587,2932896,2932896,-4371587)" distErrPct="0" maxDistErr="1" />
