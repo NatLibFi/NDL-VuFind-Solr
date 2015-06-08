@@ -128,27 +128,54 @@ fi
 # test that Java exists and is executable on this server
 "$JAVA" -version >/dev/null 2>&1 || {
   echo >&2 "Java not found, or an error was encountered when running java."
-  echo >&2 "A working Java 8 is required to run Solr!"
-  echo >&2 "Please install Java 8 or fix JAVA_HOME before running this script."
+  echo >&2 "A working Java 7 or later is required to run Solr!"
+  echo >&2 "Please install Java or fix JAVA_HOME before running this script."
   echo >&2 "Command that we tried: '${JAVA} -version'"
   echo >&2 "Active Path:"
   echo >&2 "${PATH}"
   exit 1
 }
 
-# URL scheme for contacting Solr
+# Select HTTP OR HTTPS related configurations
 SOLR_URL_SCHEME=http
-if [ -n "$SOLR_SSL_OPTS" ]; then
-  SOLR_URL_SCHEME=https
-fi
-
-# Which Jetty config file to use - leave blank to use the default: etc/jetty.xml
 SOLR_JETTY_CONFIG=()
-if [ -n "$SOLR_SSL_OPTS" ]; then
-  SOLR_JETTY_CONFIG+=("$SOLR_TIP/server/etc/jetty-https-ssl.xml")
+SOLR_SSL_OPTS=""
+if [ -n "$SOLR_SSL_KEY_STORE" ]; then
+  SOLR_JETTY_CONFIG+=("--module=https")
+  SOLR_URL_SCHEME=https
+  SOLR_SSL_OPTS=" -Dsolr.jetty.keystore=$SOLR_SSL_KEY_STORE \
+    -Dsolr.jetty.keystore.password=$SOLR_SSL_KEY_STORE_PASSWORD \
+    -Dsolr.jetty.truststore=$SOLR_SSL_TRUST_STORE \
+    -Dsolr.jetty.truststore.password=$SOLR_SSL_TRUST_STORE_PASSWORD \
+    -Dsolr.jetty.ssl.needClientAuth=$SOLR_SSL_NEED_CLIENT_AUTH \
+    -Dsolr.jetty.ssl.wantClientAuth=$SOLR_SSL_WANT_CLIENT_AUTH"
+  if [ -n "$SOLR_SSL_CLIENT_KEY_STORE" ]; then
+    SOLR_SSL_OPTS+=" -Djavax.net.ssl.keyStore=$SOLR_SSL_CLIENT_KEY_STORE \
+      -Djavax.net.ssl.keyStorePassword=$SOLR_SSL_CLIENT_KEY_STORE_PASSWORD \
+      -Djavax.net.ssl.trustStore=$SOLR_SSL_CLIENT_TRUST_STORE \
+      -Djavax.net.ssl.trustStorePassword=$SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD"
+  else
+    SOLR_SSL_OPTS+=" -Djavax.net.ssl.keyStore=$SOLR_SSL_KEY_STORE \
+      -Djavax.net.ssl.keyStorePassword=$SOLR_SSL_KEY_STORE_PASSWORD \
+      -Djavax.net.ssl.trustStore=$SOLR_SSL_TRUST_STORE \
+      -Djavax.net.ssl.trustStorePassword=$SOLR_SSL_TRUST_STORE_PASSWORD"
+  fi
+else
+  SOLR_JETTY_CONFIG+=("--module=http")
 fi
 
-SOLR_JETTY_CONFIG+=('OPTIONS=default,rewrite')
+# Authentication options
+if [ "$SOLR_AUTHENTICATION_CLIENT_CONFIGURER" != "" ]; then
+  AUTHC_CLIENT_CONFIGURER_ARG="-Dsolr.authentication.httpclient.configurer=$SOLR_AUTHENTICATION_CLIENT_CONFIGURER"
+fi
+AUTHC_OPTS="$AUTHC_CLIENT_CONFIGURER_ARG $SOLR_AUTHENTICATION_OPTS"
+
+# Set the SOLR_TOOL_HOST variable for use when connecting to a running Solr instance
+if [ "$SOLR_HOST" != "" ]; then
+  SOLR_TOOL_HOST="$SOLR_HOST"
+else
+  SOLR_TOOL_HOST="localhost"
+fi
 
 function print_usage() {
   CMD="$1"
@@ -343,7 +370,7 @@ function spinner() {
   local pid=$1
   local delay=0.5
   local spinstr='|/-\'
-  while [ "$(ps aux | awk '{print $2}' | grep $pid)" ]; do
+  while [ "$(ps aux | awk '{print $2}' | grep -w $pid)" ]; do
       local temp=${spinstr#?}
       printf " [%c]  " "$spinstr"
       local spinstr=$temp${spinstr%"$temp"}
@@ -358,7 +385,7 @@ function solr_pid_by_port() {
   THE_PORT="$1"
   if [ -e "$SOLR_PID_DIR/solr-$THE_PORT.pid" ]; then
     PID=`cat "$SOLR_PID_DIR/solr-$THE_PORT.pid"`
-    CHECK_PID=`ps auxww | awk '{print $2}' | grep $PID | sort -r | tr -d ' '`
+    CHECK_PID=`ps auxww | awk '{print $2}' | grep -w $PID | sort -r | tr -d ' '`
     if [ "$CHECK_PID" != "" ]; then
       local solrPID=$PID
     fi
@@ -369,7 +396,7 @@ function solr_pid_by_port() {
 # extract the value of the -Djetty.port parameter from a running Solr process 
 function jetty_port() {
   SOLR_PID="$1"
-  SOLR_PROC=`ps auxww | grep $SOLR_PID | grep start\.jar | grep jetty.port`
+  SOLR_PROC=`ps auxww | grep -w $SOLR_PID | grep start\.jar | grep jetty.port`
   IFS=' ' read -a proc_args <<< "$SOLR_PROC"
   for arg in "${proc_args[@]}"
     do
@@ -393,7 +420,7 @@ function run_tool() {
       "${UNPACK_WAR_CMD[@]}" "$DEFAULT_SERVER_DIR/webapps/solr.war")
   fi
 
-  "$JAVA" $SOLR_SSL_OPTS -Dsolr.install.dir="$SOLR_TIP" \
+  "$JAVA" $SOLR_SSL_OPTS $AUTHC_OPTS -Dsolr.install.dir="$SOLR_TIP" \
     -Dlog4j.configuration="file:$DEFAULT_SERVER_DIR/scripts/cloud-scripts/log4j.properties" \
     -classpath "$DEFAULT_SERVER_DIR/solr-webapp/webapp/WEB-INF/lib/*:$DEFAULT_SERVER_DIR/lib/ext/*" \
     org.apache.solr.util.SolrCLI "$@"
@@ -413,7 +440,7 @@ function get_info() {
         port=`jetty_port "$ID"`
         if [ "$port" != "" ]; then
           echo -e "\nSolr process $ID running on port $port"
-          run_tool status -solr "$SOLR_URL_SCHEME://localhost:$port/solr"
+          run_tool status -solr "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$port/solr"
           echo ""
         else
           echo -e "\nSolr process $ID from $PIDF not found."
@@ -430,7 +457,7 @@ function get_info() {
           if [ "$port" != "" ]; then
             echo ""
             echo "Solr process $ID running on port $port"
-            run_tool status -solr "$SOLR_URL_SCHEME://localhost:$port/solr"
+            run_tool status -solr "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$port/solr"
             echo ""
           fi
       done
@@ -453,7 +480,7 @@ function stop_solr() {
 
   if [ "$SOLR_PID" != "" ]; then
     echo -e "Sending stop command to Solr running on port $SOLR_PORT ... waiting 5 seconds to allow Jetty process $SOLR_PID to stop gracefully."
-    "$JAVA" $SOLR_SSL_OPTS -jar "$DIR/start.jar" "${SOLR_JETTY_CONFIG[@]}" "STOP.PORT=$STOP_PORT" "STOP.KEY=$STOP_KEY" --stop || true
+    "$JAVA" $SOLR_SSL_OPTS $AUTHC_OPTS -jar "$DIR/start.jar" "STOP.PORT=$STOP_PORT" "STOP.KEY=$STOP_KEY" --stop || true
     (sleep 5) &
     spinner $!
     rm -f "$SOLR_PID_DIR/solr-$SOLR_PORT.pid"
@@ -462,7 +489,7 @@ function stop_solr() {
     exit 0
   fi
 
-  CHECK_PID=`ps auxww | awk '{print $2}' | grep $SOLR_PID | sort -r | tr -d ' '`
+  CHECK_PID=`ps auxww | awk '{print $2}' | grep -w $SOLR_PID | sort -r | tr -d ' '`
   if [ "$CHECK_PID" != "" ]; then
     echo -e "Solr process $SOLR_PID is still running; forcefully killing it now."
     kill -9 $SOLR_PID
@@ -471,7 +498,7 @@ function stop_solr() {
     sleep 1
   fi
 
-  CHECK_PID=`ps auxww | awk '{print $2}' | grep $SOLR_PID | sort -r | tr -d ' '`
+  CHECK_PID=`ps auxww | awk '{print $2}' | grep -w $SOLR_PID | sort -r | tr -d ' '`
   if [ "$CHECK_PID" != "" ]; then
     echo "ERROR: Failed to kill previous Solr Java process $SOLR_PID ... script fails."
     exit 1
@@ -685,11 +712,11 @@ if [[ "$SCRIPT_CMD" == "create" || "$SCRIPT_CMD" == "create_core" || "$SCRIPT_CM
   fi
 
   if [ "$SCRIPT_CMD" == "create_core" ]; then
-    run_tool create_core -name "$CREATE_NAME" -solrUrl "$SOLR_URL_SCHEME://localhost:$CREATE_PORT/solr" \
+    run_tool create_core -name "$CREATE_NAME" -solrUrl "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$CREATE_PORT/solr" \
       -confdir "$CREATE_CONFDIR" -configsetsDir "$SOLR_TIP/server/solr/configsets"
     exit $?
   else
-    run_tool "$SCRIPT_CMD" -name "$CREATE_NAME" -solrUrl "$SOLR_URL_SCHEME://localhost:$CREATE_PORT/solr" \
+    run_tool "$SCRIPT_CMD" -name "$CREATE_NAME" -solrUrl "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$CREATE_PORT/solr" \
       -shards "$CREATE_NUM_SHARDS" -replicationFactor "$CREATE_REPFACT" \
       -confname "$CREATE_CONFNAME" -confdir "$CREATE_CONFDIR" \
       -configsetsDir "$SOLR_TIP/server/solr/configsets"
@@ -775,7 +802,7 @@ if [[ "$SCRIPT_CMD" == "delete" ]]; then
   fi
 
   run_tool delete -name "$DELETE_NAME" -deleteConfig "$DELETE_CONFIG" \
-    -solrUrl "$SOLR_URL_SCHEME://localhost:$DELETE_PORT/solr"
+    -solrUrl "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$DELETE_PORT/solr"
   exit $?
 fi
 
@@ -788,7 +815,7 @@ fi
 # Run in foreground (default is to run in the background)
 FG="false"
 noprompt=false
-SOLR_OPTS=()
+SOLR_OPTS=($SOLR_OPTS)
 
 if [ $# -gt 0 ]; then
   while true; do  
@@ -1078,10 +1105,11 @@ if [[ "$SCRIPT_CMD" == "stop" && -z "$SOLR_PORT" ]]; then
         fi
         rm -f "$PIDF"
     done
-    # TODO: This doesn't get reflected across the subshell
-    if $none_stopped; then
-      echo -e "\nNo Solr nodes found to stop.\n"
-    fi
+    # TODO: none_stopped doesn't get reflected across the subshell
+    # This can be uncommented once we find a clean way out of it
+    # if $none_stopped; then
+    #   echo -e "\nNo Solr nodes found to stop.\n"
+    # fi
   else
     # not stopping all and don't have a port, but if we can find the pid file for the default port 8983, then use that
     none_stopped=true
@@ -1089,7 +1117,7 @@ if [[ "$SCRIPT_CMD" == "stop" && -z "$SOLR_PORT" ]]; then
     if [ $numSolrs -eq 1 ]; then
       # only do this if there is only 1 node running, otherwise they must provide the -p or -all
       PID="$(cat "$(find "$SOLR_PID_DIR" -name "solr-*.pid" -type f)")"
-      CHECK_PID=`ps auxww | awk '{print $2}' | grep $PID | sort -r | tr -d ' '`
+      CHECK_PID=`ps auxww | awk '{print $2}' | grep -w $PID | sort -r | tr -d ' '`
       if [ "$CHECK_PID" != "" ]; then
         port=`jetty_port "$CHECK_PID"`
         if [ "$port" != "" ]; then
@@ -1122,10 +1150,12 @@ fi
 if [[ "$SCRIPT_CMD" == "start" ]]; then
   # see if Solr is already running
   SOLR_PID=`solr_pid_by_port "$SOLR_PORT"`
+
   if [ -z "$SOLR_PID" ]; then
     # not found using the pid file ... but use ps to ensure not found
     SOLR_PID=`ps auxww | grep start\.jar | grep -w $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
   fi
+
   if [ "$SOLR_PID" != "" ]; then
     echo -e "\nPort $SOLR_PORT is already being used by another process (pid: $SOLR_PID)\nPlease choose a different port using the -p option.\n"
     exit 1
@@ -1136,7 +1166,7 @@ else
   SOLR_PID=`solr_pid_by_port "$SOLR_PORT"`
   if [ -z "$SOLR_PID" ]; then
     # not found using the pid file ... but use ps to ensure not found
-    SOLR_PID=`ps auxww | grep start\.jar | grep $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
+    SOLR_PID=`ps auxww | grep start\.jar | grep -w $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
   fi
   if [ "$SOLR_PID" != "" ]; then
     stop_solr "$SOLR_SERVER_DIR" "$SOLR_PORT" "$STOP_KEY" "$SOLR_PID"
@@ -1213,6 +1243,11 @@ else
   GC_LOG_OPTS=()
 fi
 
+# If ZK_HOST is defined, the assume SolrCloud mode
+if [[ -n "$ZK_HOST" ]]; then
+  SOLR_MODE="solrcloud"
+fi
+
 if [ "$SOLR_MODE" == 'solrcloud' ]; then
   if [ -z "$ZK_CLIENT_TIMEOUT" ]; then
     ZK_CLIENT_TIMEOUT="15000"
@@ -1259,13 +1294,12 @@ else
   REMOTE_JMX_OPTS=()
 fi
 
-SOLR_JAVA_MEM=()
-if [ "$SOLR_HEAP" != "" ]; then
-  SOLR_JAVA_MEM=("-Xms$SOLR_HEAP" "-Xmx$SOLR_HEAP")
-fi
-
-if [ -z "$SOLR_JAVA_MEM" ]; then
-  SOLR_JAVA_MEM=('-Xms512m' '-Xmx512m')
+JAVA_MEM_OPTS=()
+if [ -z "$SOLR_HEAP" ] && [ -n "$SOLR_JAVA_MEM" ]; then
+  JAVA_MEM_OPTS=($SOLR_JAVA_MEM)
+else
+  SOLR_HEAP="${SOLR_HEAP:-512m}"
+  JAVA_MEM_OPTS=("-Xms$SOLR_HEAP" "-Xmx$SOLR_HEAP")
 fi
 
 if [ -z "$SOLR_TIMEZONE" ]; then
@@ -1295,12 +1329,14 @@ function launch_solr() {
 
   # If SSL-related system props are set, add them to SOLR_OPTS
   if [ -n "$SOLR_SSL_OPTS" ]; then
-    # If using SSL and jetty.ssl.port not set explicitly, use the jetty.port
-    SSL_PORT_PROP="-Djetty.ssl.port=$SOLR_PORT"
-    if [ -n "$SOLR_SSL_PORT" ]; then
-      SSL_PORT_PROP="-Djetty.ssl.port=$SOLR_SSL_PORT"
-    fi
+    # If using SSL and solr.jetty.https.port not set explicitly, use the jetty.port
+    SSL_PORT_PROP="-Dsolr.jetty.https.port=$SOLR_PORT"
     SOLR_OPTS+=($SOLR_SSL_OPTS "$SSL_PORT_PROP")
+  fi
+
+  # If authentication system props are set, add them to SOLR_OPTS
+  if [ -n "$AUTHC_OPTS" ]; then
+    SOLR_OPTS+=($AUTHC_OPTS)
   fi
 
   if $verbose ; then
@@ -1311,7 +1347,7 @@ function launch_solr() {
     echo -e "    SOLR_HOST       = $SOLR_HOST"
     echo -e "    SOLR_PORT       = $SOLR_PORT"
     echo -e "    STOP_PORT       = $STOP_PORT"
-    echo -e "    SOLR_JAVA_MEM   = ${SOLR_JAVA_MEM[@]}"
+    echo -e "    JAVA_MEM_OPTS   = ${JAVA_MEM_OPTS[@]}"
     echo -e "    GC_TUNE         = ${GC_TUNE[@]}"
     echo -e "    GC_LOG_OPTS     = ${GC_LOG_OPTS[@]}"
     echo -e "    SOLR_TIMEZONE   = $SOLR_TIMEZONE"
@@ -1343,11 +1379,11 @@ function launch_solr() {
     exit 1
   fi
 
-  SOLR_START_OPTS=('-server' '-Xss256k' "${SOLR_JAVA_MEM[@]}" "${GC_TUNE[@]}" "${GC_LOG_OPTS[@]}" \
+  SOLR_START_OPTS=('-server' '-Xss256k' "${JAVA_MEM_OPTS[@]}" "${GC_TUNE[@]}" "${GC_LOG_OPTS[@]}" \
     "${REMOTE_JMX_OPTS[@]}" "${CLOUD_MODE_OPTS[@]}" \
     "-Djetty.port=$SOLR_PORT" "-DSTOP.PORT=$stop_port" "-DSTOP.KEY=$STOP_KEY" \
     "${SOLR_HOST_ARG[@]}" "-Duser.timezone=$SOLR_TIMEZONE" \
-    "-Dsolr.solr.home=$SOLR_HOME" "-Dsolr.install.dir=$SOLR_TIP" \
+    "-Djetty.home=$SOLR_SERVER_DIR" "-Dsolr.solr.home=$SOLR_HOME" "-Dsolr.install.dir=$SOLR_TIP" \
     "${LOG4J_CONFIG[@]}" "${SOLR_OPTS[@]}")
 
   if [ "$SOLR_MODE" == "solrcloud" ]; then
@@ -1362,8 +1398,8 @@ function launch_solr() {
   else
     # run Solr in the background
     nohup "$JAVA" "${SOLR_START_OPTS[@]}" $SOLR_ADDL_ARGS -jar start.jar \
-      "-XX:OnOutOfMemoryError=$SOLR_TIP/bin/oom_solr.sh $SOLR_PORT $SOLR_LOGS_DIR" "${SOLR_JETTY_CONFIG[@]}" \
-	    1>"$SOLR_LOGS_DIR/solr-$SOLR_PORT-console.log" 2>&1 & echo $! > "$SOLR_PID_DIR/solr-$SOLR_PORT.pid"
+	"-XX:OnOutOfMemoryError=$SOLR_TIP/bin/oom_solr.sh $SOLR_PORT $SOLR_LOGS_DIR" "${SOLR_JETTY_CONFIG[@]}" \
+	1>"$SOLR_LOGS_DIR/solr-$SOLR_PORT-console.log" 2>&1 & echo $! > "$SOLR_PID_DIR/solr-$SOLR_PORT.pid"
 
     # no lsof on cygwin though
     if hash lsof 2>/dev/null ; then  # hash returns true if lsof is on the path
@@ -1383,14 +1419,14 @@ function launch_solr() {
             exit
           fi
         else
-          SOLR_PID=`ps auxww | grep start\.jar | grep $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
+          SOLR_PID=`ps auxww | grep start\.jar | grep -w $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
           echo -e "\nStarted Solr server on port $SOLR_PORT (pid=$SOLR_PID). Happy searching!\n"
           exit
         fi
       done) &
       spinner $!
     else
-      SOLR_PID=`ps auxww | grep start\.jar | grep $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
+      SOLR_PID=`ps auxww | grep start\.jar | grep -w $SOLR_PORT | grep -v grep | awk '{print $2}' | sort -r`
       echo -e "\nStarted Solr server on port $SOLR_PORT (pid=$SOLR_PID). Happy searching!\n"
       exit;
     fi
@@ -1411,18 +1447,18 @@ if [ "$EXAMPLE" != "cloud" ]; then
 
     run_tool create -name "$EXAMPLE_NAME" -shards 1 -replicationFactor 1 \
       -confname "$EXAMPLE_NAME" -confdir "$EXAMPLE_CONFIGSET" \
-      -configsetsDir "$SOLR_TIP/server/solr/configsets" -solrUrl $SOLR_URL_SCHEME://localhost:$SOLR_PORT/solr
+      -configsetsDir "$SOLR_TIP/server/solr/configsets" -solrUrl $SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr
     if [ $? -ne 0 ]; then
       exit 1
     fi
 
     if [ "$EXAMPLE" == "techproducts" ]; then
       echo "Indexing tech product example docs from $SOLR_TIP/example/exampledocs"
-      "$JAVA" $SOLR_SSL_OPTS -Durl="$SOLR_URL_SCHEME://localhost:$SOLR_PORT/solr/$EXAMPLE/update" \
+      "$JAVA" $SOLR_SSL_OPTS -Durl="$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr/$EXAMPLE/update" \
 	-jar "$SOLR_TIP/example/exampledocs/post.jar" "$SOLR_TIP/example/exampledocs"/*.xml
     fi
 
-    echo -e "\nSolr $EXAMPLE example launched successfully. Direct your Web browser to $SOLR_URL_SCHEME://localhost:$SOLR_PORT/solr to visit the Solr Admin UI\n"
+    echo -e "\nSolr $EXAMPLE example launched successfully. Direct your Web browser to $SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr to visit the Solr Admin UI\n"
   fi
 else
   #
@@ -1535,9 +1571,14 @@ else
    
   run_tool create_collection -name "$CLOUD_COLLECTION" -shards $CLOUD_NUM_SHARDS -replicationFactor $CLOUD_REPFACT \
     -confname "$CLOUD_COLLECTION" -confdir "$CLOUD_CONFIG" \
-    -configsetsDir "$SOLR_TIP/server/solr/configsets" -solrUrl "$SOLR_URL_SCHEME://localhost:$SOLR_PORT/solr"
+    -configsetsDir "$SOLR_TIP/server/solr/configsets" -solrUrl "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr"
 
-  echo -e "\n\nSolrCloud example running, please visit $SOLR_URL_SCHEME://localhost:$SOLR_PORT/solr \n\n"
+  # enable soft-autocommits for the gettingstarted collection
+  echo -e "\nEnabling auto soft-commits with maxTime 3 secs using the Config API"
+  run_tool config -collection "$CLOUD_COLLECTION" -solrUrl "$SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr" \
+    -property updateHandler.autoSoftCommit.maxTime -value 3000
+
+  echo -e "\n\nSolrCloud example running, please visit $SOLR_URL_SCHEME://$SOLR_TOOL_HOST:$SOLR_PORT/solr \n\n"
 fi
 
 exit $?
