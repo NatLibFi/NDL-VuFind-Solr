@@ -9,6 +9,57 @@ caching, replication, and a web administration interface.
 See http://lucene.apache.org/solr for more information.
 
 
+==================  5.2.1 ==================
+
+Consult the LUCENE_CHANGES.txt file for additional, low level, changes in this release
+
+Versions of Major Components
+---------------------
+Apache Tika 1.7
+Carrot2 3.9.0
+Velocity 1.7 and Velocity Tools 2.0
+Apache UIMA 2.3.1
+Apache ZooKeeper 3.4.6
+Jetty 9.2.10.v20150310
+
+Detailed Change List
+----------------------
+
+Bug Fixes
+----------------------
+
+* SOLR-7588: Fix javascript bug introduced by SOLR-7409 that breaks the
+  dataimport screen in the admin UI. (Bill Bell via Shawn Heisey)
+
+* SOLR-7616: Faceting on a numeric field with a unique() subfacet function on another numeric field
+  can result in incorrect results or an exception. (yonik)
+  
+* SOLR-7518: New Facet Module should respect shards.tolerant and process all non-failing shards
+  instead of throwing an exception. (yonik)
+
+* SOLR-7574: A request with a json content type but no body caused a null pointer exception (yonik)
+  
+* SOLR-7512: SolrOutputFormat creates an invalid solr.xml in the solr home zip for MapReduceIndexerTool.
+  (Mark Miller, Adam McElwee)
+
+* SOLR-7638: Fix new (Angular-based) admin UI Cloud pane (Upayavira via ehatcher)
+
+* SOLR-7655: The DefaultSolrHighlighter since 5.0 was determining if payloads were present in a way
+  that was slow, especially when lots of fields were highlighted.  It's now fast.  (David Smiley)
+
+* SOLR-7493: Requests aren't distributed evenly if the collection isn't present locally.
+  (Jeff Wartes, shalin)
+  
+Other Changes
+----------------------
+
+* SOLR-7623: Fix regression from SOLR-7484 that made it impossible to override 
+  SolrDispatchFilter#execute() and SolrDispatchFilter#sendError().  You can now override these
+  functions in HttpSolrCall.  (ryan)
+
+* SOLR-7648: Expose remote IP and Host via the AuthorizationContext to be used by the authorization plugin.
+  (Ishan Chattopadhyaya via Anshum Gupta)
+
 ==================  5.2.0 ==================
 
 Consult the LUCENE_CHANGES.txt file for additional, low level, changes in this release
