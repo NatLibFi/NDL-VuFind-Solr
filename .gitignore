@@ -1,0 +1,10 @@
+server/logs/*log*
+vufind/solr.in.finna.sh
+vufind/authority/index
+vufind/biblio/core.properties
+vufind/biblio/index.properties
+vufind/biblio/data
+vufind/biblio/spellShingle
+vufind/biblio/spellchecker
+vufind/reserves/index
+vufind/stats/index
