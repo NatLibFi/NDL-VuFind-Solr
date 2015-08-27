@@ -14,6 +14,7 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
   - lucene-analyzers-icu (from contrib/analysis-extras/lucene-libs/)
   - solrvoikko2
 - The docs directory has been removed
+- An empty file has been added to server/logs so that git retains the directory
 
 ## Installation
 

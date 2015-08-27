@@ -23,14 +23,16 @@ limitations under the License.
     <div id="actions" class="actions clearfix">
 
       <button id="add" class="action" ng-click="showAddCore()"><span>Add Core</span></button>
+      <span ng-show="hasCores">
       <button id="unload" class="warn requires-core" ng-click="unloadCore()"><span>Unload</span></button>
       <button id="rename" class="action requires-core" ng-click="showRenameCore()"><span>Rename</span></button>
       <button id="swap" class="action requires-core" ng-click="showSwapCores()"><span>Swap</span></button>
       <button id="reload" class="requires-core" ng-click="reloadCore()"
          ng-class="{success: reloadSuccess, warn: reloadFailure}"><span>Reload</span></button>
-      <button id="optimize" class="requires-core" ng-click="optimizeCore()" ng-show="core.hasDeletions"><span>Optimize</span></button>
-
-      <div class="action add" data-rel="add" ng-show="showAdd">
+      <button id="optimize" class="requires-core" ng-click="optimizeCore()" ng-show="core.index.hasDeletions || optimizeSuccess"
+         ng-class="{success: optimizeSuccess, warn: optimizeFailure}"><span>Optimize</span></button>
+      </span>
+      <div class="action add" data-rel="add" ng-show="showAdd" style="display:block;left:0px;">
 
         <form>
 
@@ -41,7 +43,7 @@ limitations under the License.
           <input type="text" name="instanceDir" id="add_instanceDir" ng-model="newCore.instanceDir"></p>
 
           <p class="clearfix"><label for="add_dataDir">dataDir:</label>
-          <input type="text" name="dataDir" id="dataDir" ng-model="newCore.dataDir"></p>
+          <input type="text" name="dataDir" id="add_dataDir" ng-model="newCore.dataDir"></p>
 
           <p class="clearfix"><label for="add_config">config:</label>
           <input type="text" name="config" id="add_config" ng-model="newCore.config"></p>
@@ -49,13 +51,13 @@ limitations under the License.
           <p class="clearfix"><label for="add_schema">schema:</label>
           <input type="text" name="schema" id="add_schema" ng-model="newCore.schema"></p>
 
-          <div class="cloud">
+          <div class="cloud" ng-show="isCloud">
 
             <p class="clearfix"><label for="add_collection">collection:</label>
             <input type="text" name="collection" id="add_collection" ng-model="newCore.collection"></p>
 
             <p class="clearfix"><label for="add_shard">shard:</label>
-            <input type="text" name="shard" id="shard" ng-model="newCore.shard"></p>
+            <input type="text" name="add_shard" id="add_shard" ng-model="newCore.shard"></p>
 
           </div>
 
@@ -125,7 +127,7 @@ limitations under the License.
 
     </div>
 
-    <div id="data" class="requires-core">
+    <div id="data" class="requires-core" ng-show="hasCores">
 
       <div class="block" id="core-data">
 
@@ -159,7 +161,7 @@ limitations under the License.
         </div>
       </div>
 
-      <div class="block" id="index-data">
+      <div class="block" id="index-data" ng-show="hasCores">
 
           <h2><span>Index</span></h2>
 
@@ -198,7 +200,7 @@ limitations under the License.
 
             <li class="optimized"><dl class="clearfix">
               <dt><span>optimized:</span></dt>
-                <dd class="ico" ng-class="core.index.hasDeletions ? 'ico-1' : 'ico-0'"><span></span></dd>
+                <dd class="ico" ng-class="core.index.hasDeletions ? 'ico-0' : 'ico-1'"><span></span></dd>
             </dl></li>
 
             <li class="current"><dl class="clearfix">
@@ -220,7 +222,7 @@ limitations under the License.
 
   </div>
 
-  <div id="navigation" class="requires-core clearfix">
+  <div id="navigation" class="requires-core clearfix" ng-show="hasCores">
     <ul>
       <li ng-repeat="c in cores" ng-class="{current: core.name == c.name}"><a href="#~cores/{{c.name}}">{{c.name}}</a></li>
     </ul>

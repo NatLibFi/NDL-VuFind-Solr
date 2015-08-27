@@ -9,3 +9,4 @@ vufind/biblio/spellShingle
 vufind/biblio/spellchecker
 vufind/reserves/index
 vufind/stats/index
+.idea/*
