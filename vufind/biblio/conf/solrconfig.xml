@@ -533,6 +533,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="df">allfields</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
@@ -574,6 +576,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="df">allfields</str>
     </lst>
     <arr name="last-components">
@@ -595,6 +599,8 @@
       <str name="spellcheck.maxCollationTries">10</str>
       <str name="spellcheck.collateParam.mm">100%</str>
       <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
     </lst>
