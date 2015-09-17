@@ -300,6 +300,8 @@
   <copyField source="callnumber-raw" dest="callnumber-search"/>
   <!-- textProper version of title for unstemmed search -->
   <copyField source="title"    dest="title_txtP"/>
+  <!-- text versions of fields for search -->
+  <copyField source="collection"    dest="collection_txt_mv"/>
   <!-- Default Boolean Operator -->
   <solrQueryParser defaultOperator="AND"/>
 </schema>
