@@ -264,11 +264,13 @@
   <!-- ** Basic, single word spelling -->
   <copyField source="allfields" dest="spelling"/>
   <!-- ** Complex, Shingle spelling -->
+  <!-- 
   <copyField source="author"   dest="spellingShingle"/>
   <copyField source="title"    dest="spellingShingle"/>
   <copyField source="contents" dest="spellingShingle"/>
   <copyField source="series"   dest="spellingShingle"/>
   <copyField source="topic"    dest="spellingShingle"/>
+  -->
   <!-- CopyFields for Faceting on Text -->
   <copyField source="title_full" dest="title_fullStr"/>
   <copyField source="title_full" dest="title_full_unstemmed"/>
