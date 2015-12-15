@@ -33,7 +33,7 @@
 #   update-rc.d solr enable
 
 # Where you extracted the Solr distribution bundle
-SOLR_INSTALL_DIR=/data/solr
+SOLR_INSTALL_DIR=/data/solr/vendor
 
 if [ ! -d "$SOLR_INSTALL_DIR" ]; then
   echo "$SOLR_INSTALL_DIR not found! Please check the SOLR_INSTALL_DIR setting in your $0 script."
