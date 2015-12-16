@@ -6,10 +6,17 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
 
 - Solr distribution is in vendor directory
 - Solr home (set in solr.in.finna.sh[.sample]) is ./vufind which contains the Finna VuFind core configs
-- The following libraries have been added to vendor/server/solr-webapp/webapp/WEB-INF/lib (putting them in vufind/lib doesn't seem to work, probably because of SOLR-4852 and SOLR-6188, and trying workaround still doesn't let JTS load properly):
+- The following libraries have been added to server/solr-webapp/webapp/WEB-INF/lib (putting them in vufind/lib doesn't seem to work, probably because of SOLR-4852 and SOLR-6188, and trying workaround still doesn't let JTS load properly):
   - jts
   - jtsio
+- The following libraries have been copied to vufind/lib (referencing them in solrconfig.xml is not easy in cloud mode):
+  - icu4j
+  - jna
+  - libvoikko
+  - lucene-analyzers-icu (from contrib/analysis-extras/lucene-libs/)
+  - solrvoikko2
 - The vendor/docs directory has been removed
+- An empty file has been added to vufind/logs so that git retains the directory
 
 ## Installation
 
