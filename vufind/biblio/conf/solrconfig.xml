@@ -39,6 +39,9 @@
        If replication is in use, this should match the replication configuration. -->
   <!-- <dataDir>${solr.core.instanceDir}</dataDir> -->
 
+  <lib dir="../../vendor/contrib/analysis-extras/lib" regex=".*\.jar" />
+  <lib dir="../../vendor/contrib/analysis-extras/lucene-libs" regex=".*\.jar" />
+  
   <indexConfig>
     <!-- maxFieldLength was removed in 4.0. To get similar behavior, include a
          LimitTokenCountFilterFactory in your fieldType definition. E.g.
