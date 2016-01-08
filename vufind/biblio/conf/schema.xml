@@ -245,7 +245,7 @@
   <dynamicField name="*_sdaterange_mv"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="true"/>
   <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false"/>
 
-  <!-- Fields for museum data (LIDO) -->
+  <!-- Fields for museum data (LIDO) and archive data (EAD) -->
   <field name="measurements" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="material" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="identifier" type="string" indexed="true" stored="true" multiValued="true"/>
