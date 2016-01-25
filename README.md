@@ -9,6 +9,9 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
 - The following libraries have been added to vendor/server/solr-webapp/webapp/WEB-INF/lib (putting them in vufind/lib doesn't seem to work, probably because of SOLR-4852 and SOLR-6188, and trying workaround still doesn't let JTS load properly):
   - jts
   - jtsio
+- The following libraries are copied to vufind/lib (having them in solrconfig.xml doesn't play nice with dynamic collection management in SolrCloud):
+  - vendor/contrib/analysis-extras/lib/icu4j-54.1.jar
+  - vendor/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-*.jar 
 - The vendor/docs directory has been removed
 
 ## Installation
