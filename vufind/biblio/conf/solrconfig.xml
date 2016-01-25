@@ -570,6 +570,43 @@
     </arr>
   </requestHandler>
 
+  <!-- A request handler that returns indented JSON by default -->
+  <requestHandler name="/query" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <str name="wt">json</str>
+      <str name="indent">true</str>
+      <str name="spellcheck.extendedResults">true</str>
+      <str name="spellcheck.onlyMorePopular">true</str>
+      <str name="spellcheck.count">20</str>
+      <str name="spellcheck.collate">true</str>
+      <str name="spellcheck.maxCollations">10</str>
+      <str name="spellcheck.maxCollationTries">10</str>
+      <str name="spellcheck.collateParam.mm">100%</str>
+      <str name="spellcheck.collateExtendedResults">false</str>
+      <int name="hl.maxAnalyzedChars">-1</int>
+      <int name="hl.maxMultiValuedToExamine">100</int>
+      <bool name="preferLocalShards">true</bool>      
+      <str name="df">allfields</str>
+      <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
+      <str name="mlt.qf">
+        title^75
+        title_short^100
+        callnumber-label^400
+        topic^300
+        language^30
+        author^75
+        publishDate
+      </str>
+      <int name="mlt.mintf">1</int>
+      <int name="mlt.mindf">1</int>
+      <str name="mlt.boost">true</str>
+      <int name="mlt.count">5</int>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+    </arr>
+  </requestHandler>
   <!-- the following two handlers will be used for eligible dismax searches defined
      in searchspecs.yaml. The edismax handler will be used most of the time, unless
      a specific configuration tells VuFind to use traditional dismax instead. You
