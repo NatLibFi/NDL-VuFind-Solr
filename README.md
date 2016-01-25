@@ -15,7 +15,7 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
 
 ### Prerequisites
 
-1. Install libvoikko (see the first three steps at https://github.com/NatLibFi/SolrPlugins/wiki/Voikko-plugin)
+1. Install libvoikko (for CentOS 6 see the first three steps at https://github.com/NatLibFi/SolrPlugins/wiki/Voikko-plugin, for CentOS 7 "yum install libvoikko") 
 
 ### Solr
 
@@ -27,14 +27,24 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
 
     `SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr start`
 
-6. To enable startup via system init and management with service command in RHEL 6.x, copy vufind/solr.finna-init-script to file /etc/init.d/solr, make it executable, change the paths in it and execute the following commands:
+6. To enable startup via system init and management with service command in init-based systems like RHEL 6.x, copy vufind/solr.finna-init-script to file /etc/init.d/solr, make it executable, change the paths in it and execute the following commands:
 
     `chkconfig --add solr`
 
     `chkconfig solr on`
+    
+7. With systemd-based systemd, like CentOS 7, copy vufind/solr.service to /etc/systemd/system/, change paths in it and execute the following commands:
 
-7. Start solr with command
+    `systemctl daemon-reload`
+    
+    `systemctl enable solr`
+
+8. In init-based systems, start Solr with command:
 
     `service solr start`
 
-8. Check the logs at server/logs for any errors
+9. In systemd-based systems, start Solr with command:
+
+    `systemctl start solr`
+
+10. Check the logs at server/logs for any errors
