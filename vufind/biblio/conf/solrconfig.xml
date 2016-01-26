@@ -391,10 +391,11 @@
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
           <str name="start">0</str>
-          <str name="rows">10</str>
+          <str name="rows">20</str>
           <str name="sort">score desc</str>
           <str name="facet">true</str>
           <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
           <str name="facet.field">building</str>
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
@@ -414,6 +415,38 @@
           <str name="facet.field">original_lng_str_mv</str>
           <str name="facet.field">subtitle_lng_str_mv</str>
           <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+        <lst>
+          <str name="q">tutki ja kirjoita</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author2Str</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_sdaterange_mv</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
         </lst>
       </arr>
     </listener>
@@ -428,10 +461,11 @@
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
           <str name="start">0</str>
-          <str name="rows">10</str>
+          <str name="rows">20</str>
           <str name="sort">score desc</str>
           <str name="facet">true</str>
           <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
           <str name="facet.field">building</str>
           <str name="facet.field">collection</str>
           <str name="facet.field">format</str>
@@ -451,6 +485,38 @@
           <str name="facet.field">original_lng_str_mv</str>
           <str name="facet.field">subtitle_lng_str_mv</str>
           <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
+        </lst>
+        <lst>
+          <str name="q">tutki ja kirjoita</str>
+          <str name="fq">-merged_child_boolean:true</str>
+          <str name="fq">-hidden_component_boolean:true</str>
+          <str name="start">0</str>
+          <str name="rows">20</str>
+          <str name="sort">score desc</str>
+          <str name="facet">true</str>
+          <str name="facet.mincount">1</str>
+          <str name="facet.limit">30</str>
+          <str name="facet.field">building</str>
+          <str name="facet.field">collection</str>
+          <str name="facet.field">format</str>
+          <str name="facet.field">main_date_str</str>
+          <str name="facet.field">topic_facet</str>
+          <str name="facet.field">author2Str</str>
+          <str name="facet.field">language</str>
+          <str name="facet.field">genre_facet</str>
+          <str name="facet.field">era_facet</str>
+          <str name="facet.field">geographic_facet</str>
+          <str name="facet.field">hierarchy_parent_title</str>
+          <str name="facet.field">first_indexed</str>
+          <str name="facet.field">search_sdaterange_mv</str>
+          <str name="facet.field">search_daterange_mv</str>
+          <str name="facet.field">sector_str_mv</str>
+          <str name="facet.field">category_str_mv</str>
+          <str name="facet.field">original_lng_str_mv</str>
+          <str name="facet.field">subtitle_lng_str_mv</str>
+          <str name="facet.field">usage_rights_str_mv</str>
+          <str name="facet.field">major_genre_str_mv</str>
         </lst>
       </arr>
     </listener>
