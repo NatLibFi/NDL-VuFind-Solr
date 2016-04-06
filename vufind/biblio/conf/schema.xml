@@ -130,9 +130,19 @@
   <!-- Generic Fields -->
   <field name="language" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="format" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+  
+  <!-- Change to multiValued="true" when supported in software -->
   <field name="author" type="textProper" indexed="true" stored="true" termVectors="true"/>
+  <field name="author_variant" type="text" indexed="true" stored="true" multiValued="true" termVectors="true"/>
+  <field name="author_role" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="author_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
+  <field name="author_sort" type="string" indexed="true" stored="true"/>  
+  
+  <!-- START legacy fields for backwards compatibility -->
   <field name="author-letter" type="string" indexed="true" stored="true"/>
   <field name="authorStr" type="string" indexed="true" stored="false" docValues="true"/>
+  <!-- END legacy fields for backwards compatibility -->
+  
   <field name="title" type="text" indexed="true" stored="true"/>
   <field name="title_sort" type="string" indexed="true" stored="true"/>
   <field name="title_sub" type="text" indexed="true" stored="true"/>
@@ -163,12 +173,14 @@
   <field name="callnumber-sort" type="string" indexed="true" stored="true"/>
   <field name="callnumber-raw" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="callnumber-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
+  
   <!-- START legacy fields for backwards compatibility -->
   <field name="callnumber" type="string" indexed="true" stored="true"/>
   <field name="callnumber-a" type="string" indexed="true" stored="true"/>
   <field name="callnumber-first-code" type="string" indexed="true" stored="true"/>
   <field name="callnumber-subject-code" type="string" indexed="true" stored="true"/>
   <!-- END legacy fields for backwards compatibility -->
+  
   <field name="dewey-hundreds" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="dewey-tens" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="dewey-ones" type="string" indexed="true" stored="true" multiValued="true"/>
@@ -177,11 +189,20 @@
   <field name="dewey-raw" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="dewey-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
   <field name="author2" type="textProper" indexed="true" stored="true" multiValued="true"/>
+  <field name="author2_variant" type="text" indexed="true" stored="true" multiValued="true"/>
+  <field name="author2_role" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="author_corporate" type="textProper" indexed="true" stored="true" multiValued="true"/>
+  <field name="author_corporate_role" type="string" indexed="true" stored="true" multiValued="true"/>
+  <field name="author_fuller" type="textProper" indexed="true" stored="true" multiValued="true" />
+  <field name="author2_fuller" type="textProper" indexed="true" stored="true" multiValued="true" />
+  <field name="author_additional" type="textProper" indexed="true" stored="true" multiValued="true"/>
+  
+  <!-- START legacy fields for backwards compatibility -->
   <field name="author2Str" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="author2-role" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="author_fuller" type="textProper" indexed="true" stored="true" />
-  <field name="author_additional" type="textProper" indexed="true" stored="true" multiValued="true"/>
   <field name="author_additionalStr" type="string" indexed="true" stored="true" multiValued="true"/>
+  <!-- END legacy fields for backwards compatibility -->
+
   <field name="title_alt" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="title_old" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="title_new" type="text" indexed="true" stored="true" multiValued="true"/>
@@ -272,11 +293,21 @@
   <!-- CopyFields for Faceting on Text -->
   <copyField source="title_full" dest="title_fullStr"/>
   <copyField source="title_full" dest="title_full_unstemmed"/>
+  <copyField source="author" dest="author_facet"/>
+  <copyField source="author2" dest="author_facet"/>
+  <copyField source="author_corporate" dest="author_facet"/>
+  
+  <!-- START legacy fields for backwards compatibility -->
   <copyField source="author" dest="authorStr"/>
-  <!-- Copy author also to author2Str for all authors faceting -->
   <copyField source="author" dest="author2Str"/>
   <copyField source="author2" dest="author2Str"/>
   <copyField source="author_additional" dest="author_additionalStr"/>
+  <!-- END legacy fields for backwards compatibility -->
+
+  <!-- Copyfields for the new author fields. Remove when RecordManager supports them. -->
+  <copyField source="author2-role" dest="author2_role"/>
+  <copyField source="author-letter" dest="author_variant"/>
+  
   <copyField source="publisher" dest="publisherStr"/>
   <copyField source="topic" dest="topic_unstemmed"/>
   <copyField source="allfields" dest="allfields_unstemmed"/>
