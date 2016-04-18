@@ -131,8 +131,7 @@
   <field name="language" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="format" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   
-  <!-- Change to multiValued="true" when supported in software -->
-  <field name="author" type="textProper" indexed="true" stored="true" termVectors="true"/>
+  <field name="author" type="textProper" indexed="true" stored="true" multiValued="true" termVectors="true"/>
   <field name="author_variant" type="text" indexed="true" stored="true" multiValued="true" termVectors="true"/>
   <field name="author_role" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="author_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
@@ -304,9 +303,9 @@
   <copyField source="author_additional" dest="author_additionalStr"/>
   <!-- END legacy fields for backwards compatibility -->
 
-  <!-- Copyfields for the new author fields. Remove when RecordManager supports them. -->
-  <copyField source="author2-role" dest="author2_role"/>
-  <copyField source="author-letter" dest="author_variant"/>
+  <!-- Copyfields for the legacy author fields. Remove when not needed anymore. -->
+  <copyField source="author2_role" dest="author2-role"/>
+  <copyField source="author_variant" dest="author-letter"/>
   
   <copyField source="publisher" dest="publisherStr"/>
   <copyField source="topic" dest="topic_unstemmed"/>

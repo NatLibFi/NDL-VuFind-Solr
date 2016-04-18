@@ -401,7 +401,7 @@
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author2Str</str>
+          <str name="facet.field">author_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
@@ -432,7 +432,7 @@
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author2Str</str>
+          <str name="facet.field">author_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
@@ -471,7 +471,7 @@
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author2Str</str>
+          <str name="facet.field">author_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
@@ -502,7 +502,7 @@
           <str name="facet.field">format</str>
           <str name="facet.field">main_date_str</str>
           <str name="facet.field">topic_facet</str>
-          <str name="facet.field">author2Str</str>
+          <str name="facet.field">author_facet</str>
           <str name="facet.field">language</str>
           <str name="facet.field">genre_facet</str>
           <str name="facet.field">era_facet</str>
