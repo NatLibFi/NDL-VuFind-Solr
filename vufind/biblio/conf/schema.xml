@@ -297,7 +297,6 @@
   <copyField source="author_corporate" dest="author_facet"/>
   
   <!-- START legacy fields for backwards compatibility -->
-  <copyField source="author" dest="authorStr"/>
   <copyField source="author" dest="author2Str"/>
   <copyField source="author2" dest="author2Str"/>
   <copyField source="author_additional" dest="author_additionalStr"/>
