@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
-<schema name="VuFind Bibliographic Index" version="1.2">
+<schema name="VuFind Bibliographic Index" version="1.6">
   <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100"/>
   <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="0"/>
-      <filter class="fi.nationallibrary.ndl.solrvoikko2.VoikkoFilterFactory" expandCompounds="true" allAnalysis="true" cacheSize="100000" statsInterval="1000000"/>
+      <filter class="fi.nationallibrary.ndl.solrvoikko2.VoikkoFilterFactory" expandCompounds="true" allAnalysis="true" cacheSize="2500" statsInterval="0"/>
       <filter class="solr.CommonGramsFilterFactory" words="stopwords.txt" ignoreCase="true"/>
       <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
       <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII_fi.txt"/>
@@ -106,10 +106,8 @@
   <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
   <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
   <fieldType name="tdouble" class="solr.TrieField" type="double" omitNorms="true" positionIncrementGap="0" indexed="true" stored="false" />
-  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="com.spatial4j.core.context.jts.JtsSpatialContextFactory" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" />
+  <fieldType name="geo" class="solr.SpatialRecursivePrefixTreeFieldType" spatialContextFactory="org.locationtech.spatial4j.context.jts.JtsSpatialContextFactory" geo="true" distErrPct="0.25" maxDistErr="1" autoIndex="true" />
   <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
-  <!-- (Deprecated) Date range is like unix timestamp but with only day precision (timestamp / 86400). Range is from year -9999 to year 9999. -->
-  <fieldType name="spatialDateRange" class="solr.SpatialRecursivePrefixTreeFieldType" geo="false" worldBounds="ENVELOPE(-4371587,2932896,2932896,-4371587)" distErrPct="0" maxDistErr="1" />
   <!-- Date range -->
   <fieldType name="dateRange" class="solr.DateRangeField"/>
 
@@ -130,18 +128,11 @@
   <!-- Generic Fields -->
   <field name="language" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="format" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
-  
   <field name="author" type="textProper" indexed="true" stored="true" multiValued="true" termVectors="true"/>
   <field name="author_variant" type="text" indexed="true" stored="true" multiValued="true" termVectors="true"/>
   <field name="author_role" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="author_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
   <field name="author_sort" type="string" indexed="true" stored="true"/>  
-  
-  <!-- START legacy fields for backwards compatibility -->
-  <field name="author-letter" type="string" indexed="true" stored="true"/>
-  <field name="authorStr" type="string" indexed="true" stored="false" docValues="true"/>
-  <!-- END legacy fields for backwards compatibility -->
-  
   <field name="title" type="text" indexed="true" stored="true"/>
   <field name="title_sort" type="string" indexed="true" stored="true"/>
   <field name="title_sub" type="text" indexed="true" stored="true"/>
@@ -172,14 +163,6 @@
   <field name="callnumber-sort" type="string" indexed="true" stored="true"/>
   <field name="callnumber-raw" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="callnumber-search" type="callnumberSearch" indexed="true" stored="true" multiValued="true" />
-  
-  <!-- START legacy fields for backwards compatibility -->
-  <field name="callnumber" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-a" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-first-code" type="string" indexed="true" stored="true"/>
-  <field name="callnumber-subject-code" type="string" indexed="true" stored="true"/>
-  <!-- END legacy fields for backwards compatibility -->
-  
   <field name="dewey-hundreds" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="dewey-tens" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="dewey-ones" type="string" indexed="true" stored="true" multiValued="true"/>
@@ -195,14 +178,7 @@
   <field name="author_fuller" type="textProper" indexed="true" stored="true" multiValued="true" />
   <field name="author2_fuller" type="textProper" indexed="true" stored="true" multiValued="true" />
   <field name="author_additional" type="textProper" indexed="true" stored="true" multiValued="true"/>
-  
-  <!-- START legacy fields for backwards compatibility -->
-  <field name="author2Str" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
-  <field name="author2-role" type="string" indexed="true" stored="true" multiValued="true"/>
-  <field name="author_additionalStr" type="string" indexed="true" stored="true" multiValued="true"/>
-  <!-- END legacy fields for backwards compatibility -->
-
-  <field name="title_alt" type="text" indexed="true" stored="true" multiValued="true"/>
+    <field name="title_alt" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="title_old" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="title_new" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="dateSpan" type="string" indexed="true" stored="true" multiValued="true"/>
@@ -259,8 +235,6 @@
   <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
-  <dynamicField name="*_sdaterange"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="false"/>
-  <dynamicField name="*_sdaterange_mv"  type="spatialDateRange"  indexed="true"  stored="true" multiValued="true"/>
   <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false"/>
 
   <!-- Fields for museum data (LIDO) and archive data (EAD) -->
@@ -295,17 +269,6 @@
   <copyField source="author" dest="author_facet"/>
   <copyField source="author2" dest="author_facet"/>
   <copyField source="author_corporate" dest="author_facet"/>
-  
-  <!-- START legacy fields for backwards compatibility -->
-  <copyField source="author" dest="author2Str"/>
-  <copyField source="author2" dest="author2Str"/>
-  <copyField source="author_additional" dest="author_additionalStr"/>
-  <!-- END legacy fields for backwards compatibility -->
-
-  <!-- Copyfields for the legacy author fields. Remove when not needed anymore. -->
-  <copyField source="author2_role" dest="author2-role"/>
-  <copyField source="author_variant" dest="author-letter"/>
-  
   <copyField source="publisher" dest="publisherStr"/>
   <copyField source="topic" dest="topic_unstemmed"/>
   <copyField source="allfields" dest="allfields_unstemmed"/>

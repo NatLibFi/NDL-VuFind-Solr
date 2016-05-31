@@ -100,9 +100,9 @@ SOLR_OPTS="$SOLR_OPTS -Xss256k"
 
 # Uncomment to set SSL-related system properties
 # Be sure to update the paths to the correct keystore for your environment
-#SOLR_SSL_KEY_STORE=etc/solr-ssl.keystore.jks
+#SOLR_SSL_KEY_STORE=/home/shalin/work/oss/shalin-lusolr/solr/server/etc/solr-ssl.keystore.jks
 #SOLR_SSL_KEY_STORE_PASSWORD=secret
-#SOLR_SSL_TRUST_STORE=etc/solr-ssl.keystore.jks
+#SOLR_SSL_TRUST_STORE=/home/shalin/work/oss/shalin-lusolr/solr/server/etc/solr-ssl.keystore.jks
 #SOLR_SSL_TRUST_STORE_PASSWORD=secret
 #SOLR_SSL_NEED_CLIENT_AUTH=false
 #SOLR_SSL_WANT_CLIENT_AUTH=false
@@ -117,4 +117,11 @@ SOLR_OPTS="$SOLR_OPTS -Xss256k"
 # Settings for authentication
 #SOLR_AUTHENTICATION_CLIENT_CONFIGURER=
 #SOLR_AUTHENTICATION_OPTS=
+
+# Settings for ZK ACL
+#SOLR_ZK_CREDS_AND_ACLS="-DzkACLProvider=org.apache.solr.common.cloud.VMParamsAllAndReadonlyDigestZkACLProvider \
+#  -DzkCredentialsProvider=org.apache.solr.common.cloud.VMParamsSingleSetCredentialsDigestZkCredentialsProvider \
+#  -DzkDigestUsername=admin-user -DzkDigestPassword=CHANGEME-ADMIN-PASSWORD \
+#  -DzkDigestReadonlyUsername=readonly-user -DzkDigestReadonlyPassword=CHANGEME-READONLY-PASSWORD"
+#SOLR_OPTS="$SOLR_OPTS $SOLR_ZK_CREDS_AND_ACLS"
 

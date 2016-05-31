@@ -6,7 +6,7 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
 
 - Solr distribution is in vendor directory
 - Solr home (set in solr.in.finna.sh[.sample]) is ./vufind which contains the Finna VuFind core configs
-- The following libraries have been added to vendor/server/solr-webapp/webapp/WEB-INF/lib (putting them in vufind/lib doesn't seem to work, probably because of SOLR-4852 and SOLR-6188, and trying workaround still doesn't let JTS load properly):
+- The JTS libraries from http://tsusiatsoftware.net/jts/main.html have been added to vendor/server/solr-webapp/webapp/WEB-INF/lib (putting them in vufind/lib doesn't seem to work, probably because of SOLR-4852 and SOLR-6188, and trying workaround still doesn't let JTS load properly):
   - jts
   - jtsio
 - The following libraries are copied to vufind/lib (having them in solrconfig.xml doesn't play nice with dynamic collection management in SolrCloud):

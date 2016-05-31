@@ -33,7 +33,10 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>LUCENE_5_0_0</luceneMatchVersion>
+  <luceneMatchVersion>6.0.1</luceneMatchVersion>
+
+  <!-- Use the classic schema factory -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
 
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.

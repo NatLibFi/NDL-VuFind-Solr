@@ -32,8 +32,11 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>LUCENE_5_4_0</luceneMatchVersion>
+  <luceneMatchVersion>6.0.1</luceneMatchVersion>
 
+  <!-- Use the classic schema factory -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+  
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
        If replication is in use, this should match the replication configuration. -->
@@ -231,7 +234,7 @@
          have some sort of hard autoCommit to limit the log size.
       -->
     <autoCommit>
-      <maxTime>60000</maxTime>
+      <maxTime>180000</maxTime>
       <openSearcher>false</openSearcher>
     </autoCommit>
 
@@ -252,6 +255,8 @@
     <updateLog>
       <!-- <str name="dir">${solr.core.instanceDir}</str> -->
       <str name="syncLevel">fsync</str>
+      <str name="maxNumLogsToKeep">${solr.ulog.maxNumLogsToKeep:10}</str>
+      <str name="numRecordsToKeep">${solr.ulog.numRecordsToKeep:1000}</str>
     </updateLog>
 
     <!-- The RunExecutableListener executes an external command.
@@ -408,7 +413,6 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">search_daterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
@@ -439,7 +443,6 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">search_daterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
@@ -478,7 +481,6 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">search_daterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
@@ -509,7 +511,6 @@
           <str name="facet.field">geographic_facet</str>
           <str name="facet.field">hierarchy_parent_title</str>
           <str name="facet.field">first_indexed</str>
-          <str name="facet.field">search_sdaterange_mv</str>
           <str name="facet.field">search_daterange_mv</str>
           <str name="facet.field">sector_str_mv</str>
           <str name="facet.field">category_str_mv</str>
