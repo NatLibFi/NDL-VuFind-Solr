@@ -254,7 +254,7 @@
          solr data directory.  -->
     <updateLog>
       <!-- <str name="dir">${solr.core.instanceDir}</str> -->
-      <str name="syncLevel">fsync</str>
+      <str name="syncLevel">flush</str>
       <str name="maxNumLogsToKeep">${solr.ulog.maxNumLogsToKeep:10}</str>
       <str name="numRecordsToKeep">${solr.ulog.numRecordsToKeep:1000}</str>
     </updateLog>
@@ -310,7 +310,7 @@
     <filterCache
       class="solr.FastLRUCache"
       size="1024"
-      initialSize="1024"
+      initialSize="128"
       autowarmCount="1024"/>
 
    <!-- queryResultCache caches results of searches - ordered lists of
@@ -395,6 +395,7 @@
           <str name="q">*:*</str>
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
           <str name="start">0</str>
           <str name="rows">20</str>
           <str name="sort">score desc</str>
@@ -425,6 +426,7 @@
           <str name="q">tutki ja kirjoita</str>
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
           <str name="start">0</str>
           <str name="rows">20</str>
           <str name="sort">score desc</str>
@@ -463,6 +465,7 @@
           <str name="q">*:*</str>
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
           <str name="start">0</str>
           <str name="rows">20</str>
           <str name="sort">score desc</str>
@@ -493,6 +496,7 @@
           <str name="q">tutki ja kirjoita</str>
           <str name="fq">-merged_child_boolean:true</str>
           <str name="fq">-hidden_component_boolean:true</str>
+          <str name="fq">source_str_mv:("jykdok"+OR+"jyx"+OR+"janet"+OR+"helka"+OR+"kyyti"+OR+"oiva"+OR+"helmet"+OR+"MMA"+OR+"TMA"+OR+"OMA"+OR+"HMA"+OR+"VMA"+OR+"JoMA"+OR+"JyMA"+OR+"lusto"+OR+"metsastysmuseo"+OR+"muusa"+OR+"nurmes"+OR+"pielinen"+OR+"ilomantsi"+OR+"lapinmetsamuseo"+OR+"verla"+OR+"KA"+OR+"musketti"+OR+"designmuseo"+OR+"elektra_ah"+OR+"kansa_ah"+OR+"paivalehdenmuseo_ah"+OR+"ta_ah"+OR+"tm_ah"+OR+"werstas"+OR+"masto"+OR+"musketti_rautatie"+OR+"musketti_helina"+OR+"siirtolaisuusmuseo_ah"+OR+"yo-museo_ah"+OR+"leevi"+OR+"kultamuseo_ah"+OR+"hkm"+OR+"tyrni"+OR+"SLS"+OR+"siiri"+OR+"musketti_hrm"+OR+"musketti_tmk"+OR+"sa-kuva"+OR+"fsd"+OR+"hanna"+OR+"vanaicat"+OR+"plari"+OR+"vaski"+OR+"musketti_hevosenkenka"+OR+"fng_nyblin"+OR+"fng_simberg"+OR+"fng_styp"+OR+"kirjava"+OR+"alli"+OR+"mikkelikm"+OR+"muistaja_hyvinkaa"+OR+"muistaja_kerava"+OR+"muistaja_mantsala"+OR+"muistaja_nurmijarvi"+OR+"kaakkuri"+OR+"joel"+OR+"laurus"+OR+"fennica"+OR+"viola"+OR+"arto"+OR+"vaari"+OR+"oma"+OR+"sarka"+OR+"aura"+OR+"juolukka"+OR+"lauda"+OR+"metcat"+OR+"colibri"+OR+"musketti_kym"+OR+"musketti_lprmuseot"+OR+"josku"+OR+"ekm"+OR+"doria_taiy"+OR+"arsca"+OR+"haltia"+OR+"hurma"+OR+"ksm"+OR+"kajakki"+OR+"theseus_centria"+OR+"theseus_haagahelia"+OR+"theseus_hamk"+OR+"theseus_humak"+OR+"theseus_jamk"+OR+"theseus_kamk"+OR+"theseus_karelia"+OR+"theseus_kyamk"+OR+"theseus_lapinamk"+OR+"theseus_laurea"+OR+"theseus_mamk"+OR+"theseus_metropolia"+OR+"theseus_oamk"+OR+"theseus_phkk"+OR+"theseus_samk"+OR+"theseus_seamk"+OR+"theseus_tamk"+OR+"theseus_tuamk"+OR+"albumitauki"+OR+"jultika"+OR+"oula"+OR+"alma"+OR+"spegeln-bildsamlingarna"+OR+"spegeln-cultura"+OR+"spegeln-konstvetenskap"+OR+"spegeln-sibeliusmuseet")</str>
           <str name="start">0</str>
           <str name="rows">20</str>
           <str name="sort">score desc</str>
