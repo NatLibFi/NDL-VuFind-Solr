@@ -616,7 +616,8 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
-      <bool name="preferLocalShards">true</bool>      
+      <bool name="preferLocalShards">true</bool>
+      <str name="facet.method">enum</str>      
       <str name="df">allfields</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
@@ -655,6 +656,7 @@
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <bool name="preferLocalShards">true</bool>      
+      <str name="facet.method">enum</str>      
       <str name="df">allfields</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
@@ -698,6 +700,7 @@
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <bool name="preferLocalShards">true</bool>      
+      <str name="facet.method">enum</str>      
       <str name="df">allfields</str>
     </lst>
     <arr name="last-components">
@@ -721,6 +724,7 @@
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
       <bool name="preferLocalShards">true</bool>      
+      <str name="facet.method">enum</str>      
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
     </lst>
