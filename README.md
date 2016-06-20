@@ -10,7 +10,7 @@ This is for the most parts vanilla Solr 5. The following changes have been made:
   - jts
   - jtsio
 - The following libraries are copied to vufind/lib (having them in solrconfig.xml doesn't play nice with dynamic collection management in SolrCloud):
-  - vendor/contrib/analysis-extras/lib/icu4j-54.1.jar
+  - vendor/contrib/analysis-extras/lib/icu4j-*.jar
   - vendor/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-*.jar 
 - The vendor/docs directory has been removed
 
