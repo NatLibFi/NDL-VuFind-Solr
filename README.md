@@ -1,8 +1,8 @@
 # NDL-VuFind-Solr
 
-Solr 5 for NDL-VuFind2 (Finna 2)
+Solr 6 for NDL-VuFind2 (Finna 2)
 
-This is for the most parts vanilla Solr 5. The following changes have been made:
+This is for the most parts vanilla Solr 6 with VuFind schemas. The following changes have been made:
 
 - Solr distribution is in vendor directory
 - Solr home (set in solr.in.finna.sh[.sample]) is ./vufind which contains the Finna VuFind core configs
