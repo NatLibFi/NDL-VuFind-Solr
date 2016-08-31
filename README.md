@@ -50,4 +50,4 @@ This is for the most parts vanilla Solr 6 with VuFind schemas. The following cha
 
     `systemctl start solr`
 
-10. Check the logs at server/logs for any errors
+10. Check the logs at vufind/logs for any errors
