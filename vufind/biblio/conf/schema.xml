@@ -196,7 +196,10 @@
   <field name="era" type="text" indexed="true" stored="true" multiValued="true"/>
   <field name="era_facet" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
   <field name="illustrated" type="string" indexed="true" stored="true" multiValued="false"/>
+  <!-- Used for geographic map display -->
   <field name="long_lat" type="string" indexed="true" stored="true" multiValued="true" docValues="true"/>
+  <field name="long_lat_display" type="text" indexed="true" stored="true" multiValued="true"/>
+  <field name="long_lat_label" type="string" indexed="false" stored="true" multiValued="true"/>
   <!-- Hierarchy Fields -->
   <field name="hierarchytype" type="string" indexed="true" stored="true" multiValued="false"/>
   <field name="hierarchy_top_id" type="string" indexed="true" stored="true" multiValued="true"/>
