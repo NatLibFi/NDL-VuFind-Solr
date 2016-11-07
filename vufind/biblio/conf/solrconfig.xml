@@ -256,7 +256,7 @@
       <!-- <str name="dir">${solr.core.instanceDir}</str> -->
       <str name="syncLevel">flush</str>
       <str name="maxNumLogsToKeep">${solr.ulog.maxNumLogsToKeep:10}</str>
-      <str name="numRecordsToKeep">${solr.ulog.numRecordsToKeep:10000}</str>
+      <str name="numRecordsToKeep">${solr.ulog.numRecordsToKeep:1000}</str>
     </updateLog>
 
     <!-- The RunExecutableListener executes an external command.
