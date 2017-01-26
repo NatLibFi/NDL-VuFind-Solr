@@ -28,26 +28,24 @@ This is for the most parts vanilla Solr 6 with VuFind schemas. The following cha
 4. Copy vufind/solr.in.finna.sh.sample to vufind/solr.in.finna.sh and edit as required
 5. Use the following command to start Solr manually:
 
-    `SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr start`
+        SOLR_INCLUDE=vufind/solr.in.finna.sh vendor/bin/solr start
 
 6. To enable startup via system init and management with service command in init-based systems like RHEL 6.x, copy vufind/solr.finna-init-script to file /etc/init.d/solr, make it executable, change the paths in it and execute the following commands:
 
-    `chkconfig --add solr`
-
-    `chkconfig solr on`
+        chkconfig --add solr
+        chkconfig solr on
     
 7. With systemd-based systemd, like CentOS 7, copy vufind/solr.service to /etc/systemd/system/, change paths in it and execute the following commands:
 
-    `systemctl daemon-reload`
-    
-    `systemctl enable solr`
+        systemctl daemon-reload
+        systemctl enable solr
 
 8. In init-based systems, start Solr with command:
 
-    `service solr start`
+        service solr start
 
 9. In systemd-based systems, start Solr with command:
 
-    `systemctl start solr`
+        systemctl start solr
 
 10. Check the logs at vufind/logs for any errors
