@@ -2,6 +2,7 @@
 <schema name="VuFind Bibliographic Index" version="1.6">
   <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true" positionIncrementGap="100"/>
   <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -30,6 +31,7 @@
   </fieldType>
   <!-- Text Field without Stemming and Synonyms -->
   <fieldType name="textProper" class="solr.TextField" positionIncrementGap="100">
+    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer type="index">
       <tokenizer class="solr.ICUTokenizerFactory"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -83,6 +85,7 @@
        prior to whitespace, force to lowercase, strip non-ISBN/ISSN characters,
        omit results that are empty after stripping. -->
   <fieldType name="isn" class="solr.TextField" positionIncrementGap="100">
+    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer>
       <tokenizer class="solr.PatternTokenizerFactory" pattern="^(\S*)\s*.*$" group="1"/>
       <filter class="solr.LowerCaseFilterFactory"/>
@@ -92,6 +95,7 @@
   </fieldType>
   <!-- case-insensitive/whitespace-agnostic field type for callnumber searching -->
   <fieldType name="callnumberSearch" class="solr.TextField" sortMissingLast="true" omitNorms="true">
+    <similarity class="solr.ClassicSimilarityFactory"/>
     <analyzer>
       <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="(\s)" replacement=""/>
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -132,7 +136,7 @@
   <field name="author_variant" type="text" indexed="true" stored="true" multiValued="true" termVectors="true"/>
   <field name="author_role" type="string" indexed="true" stored="true" multiValued="true"/>
   <field name="author_facet" type="string" indexed="true" stored="false" multiValued="true" docValues="true"/>
-  <field name="author_sort" type="string" indexed="true" stored="true"/>  
+  <field name="author_sort" type="string" indexed="true" stored="true"/>
   <field name="title" type="text" indexed="true" stored="true"/>
   <field name="title_sort" type="string" indexed="true" stored="true"/>
   <field name="title_sub" type="text" indexed="true" stored="true"/>
@@ -238,7 +242,7 @@
   <dynamicField name="*_coords"  type="location"  indexed="true" stored="true" multiValued="false"/>
   <dynamicField name="*_daterange"  type="dateRange"  indexed="true"  stored="true" multiValued="false"/>
   <dynamicField name="*_daterange_mv"  type="dateRange"  indexed="true"  stored="true" multiValued="true"/>
-  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false"/>
+  <dynamicField name="*_boolean" type="boolean" indexed="true" stored="true" required="false" docValues="true"/>
 
   <!-- Fields for museum data (LIDO) and archive data (EAD) -->
   <field name="measurements" type="text" indexed="true" stored="true" multiValued="true"/>
@@ -254,12 +258,12 @@
   <!-- Version for Solr -->
   <field name="_version_" type="long" indexed="true" stored="true"/>
   <uniqueKey>id</uniqueKey>
-  
+
   <!-- CopyFields for Spelling -->
   <!-- ** Basic, single word spelling -->
   <copyField source="allfields" dest="spelling"/>
   <!-- ** Complex, Shingle spelling -->
-  <!-- 
+  <!--
   <copyField source="author"   dest="spellingShingle"/>
   <copyField source="title"    dest="spellingShingle"/>
   <copyField source="contents" dest="spellingShingle"/>
@@ -277,7 +281,7 @@
   <copyField source="allfields" dest="allfields_unstemmed"/>
   <copyField source="fulltext" dest="fulltext_unstemmed"/>
   <!-- CopyFields for Alphabetic Browse -->
-  <!-- 
+  <!--
   <copyField source="topic"    dest="topic_browse"/>
   <copyField source="author"   dest="author_browse"/>
   <copyField source="author2"  dest="author_browse"/>
@@ -290,6 +294,4 @@
   <copyField source="title"    dest="title_txtP"/>
   <!-- text versions of fields for search -->
   <copyField source="collection"    dest="collection_txt_mv"/>
-  <!-- Default Boolean Operator -->
-  <solrQueryParser defaultOperator="AND"/>
 </schema>

@@ -32,11 +32,11 @@
        that you fully re-index after changing this setting as it can
        affect both how text is indexed and queried.
     -->
-  <luceneMatchVersion>5.5.2</luceneMatchVersion>
+  <luceneMatchVersion>6.4.0</luceneMatchVersion>
 
   <!-- Use the classic schema factory -->
   <schemaFactory class="ClassicIndexSchemaFactory"/>
-  
+
   <!-- Used to specify an alternate directory to hold all index data
        other than the default ./data under the Solr home.
        If replication is in use, this should match the replication configuration. -->
@@ -616,9 +616,10 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
-      <bool name="preferLocalShards">true</bool>      
+      <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
+      <str name="q.op">AND</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
         title^75
@@ -655,9 +656,10 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
-      <bool name="preferLocalShards">true</bool>      
+      <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
+      <str name="q.op">AND</str>
       <str name="mlt.fl">title,title_short,callnumber-label,topic,language,author,publishDate</str>
       <str name="mlt.qf">
         title^75
@@ -699,9 +701,10 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
-      <bool name="preferLocalShards">true</bool>      
+      <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="df">allfields</str>
+      <str name="q.op">AND</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>
@@ -723,10 +726,11 @@
       <str name="spellcheck.collateExtendedResults">false</str>
       <int name="hl.maxAnalyzedChars">-1</int>
       <int name="hl.maxMultiValuedToExamine">100</int>
-      <bool name="preferLocalShards">true</bool>      
+      <bool name="preferLocalShards">true</bool>
       <int name="timeAllowed">60000</int>
       <str name="lowercaseOperators">false</str>
       <str name="df">allfields</str>
+      <str name="q.op">AND</str>
     </lst>
     <arr name="last-components">
       <str>spellcheck</str>

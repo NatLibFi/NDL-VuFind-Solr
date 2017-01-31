@@ -49,3 +49,20 @@ This is for the most parts vanilla Solr 6 with VuFind schemas. The following cha
         systemctl start solr
 
 10. Check the logs at vufind/logs for any errors
+
+11. If running in solrcloud mode, use the following command to add a core configuration to Zookeeper:
+
+        vendor/server/scripts/cloud-scripts/zkcli.sh -zkhost localhost:9983 -cmd upconfig -d vufind/biblio/conf/ -n biblio3
+
+    Then you can create a new collection that uses the configuration by calling the collections API:
+
+        curl 'http://localhost:8983/solr/admin/collections?action=CREATE&name=biblio3&numShards=1&replicationFactor=3&collection.configName=biblio3'
+
+    Use an alias to point to the current index version in use. This way you can just point the alias to a new index version when it's ready to use:
+    
+        curl "http://localhost:8983/solr/admin/collections?action=CREATEALIAS&name=biblioprod&collections=biblio3"
+        
+    When a collection is no longer needed, remove it using the collections API:
+    
+        curl 'http://localhost:8983/solr/admin/collections?action=DELETE&name=biblio2'
+
